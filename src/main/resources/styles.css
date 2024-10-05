@@ -1,0 +1,19 @@
+.root {
+    -fx-font-family: "Consolas";
+    -fx-font-size: 14px;
+    -fx-background-color: #1E1F22;
+    -fx-padding: 10px;
+}
+
+.button {
+    -fx-background-color: #2D2D30;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-pref-width: 300px;
+}
+
+.button:hover {
+    -fx-background-color: #2E436E;
+}
