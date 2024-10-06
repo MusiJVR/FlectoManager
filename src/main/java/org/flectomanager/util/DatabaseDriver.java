@@ -1,5 +1,6 @@
 package org.flectomanager.util;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,34 +9,49 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
-@Component
+//@Component
 public class DatabaseDriver {
     private static final Logger log = LoggerFactory.getLogger(DatabaseDriver.class);
 
-    @Autowired
+    //@Autowired
     private DataSource dataSource;
 
     private JdbcTemplate jdbcTemplate;
 
     @PostConstruct
     public void init() {
-        jdbcTemplate = new JdbcTemplate(this.dataSource);
-        checkDatabaseConnection();
+        Map<String, Object> configDataMap = Utils.readConfig();
+        if (configDataMap != null) {
+            Map<String, Object> dataSourceMap = (Map<String, Object>) configDataMap.get("datasource");
+            connect((String) dataSourceMap.get("url"), (String) dataSourceMap.get("user"), (String) dataSourceMap.get("password"));
+        } else {
+            log.warn("Automatic connection to the database was not made");
+        }
     }
 
-    private void checkDatabaseConnection() {
+    public boolean connect(String url, String username, String password) {
+        MysqlDataSource dataSource = new MysqlDataSource();
+        dataSource.setURL(url);
+        dataSource.setUser(username);
+        dataSource.setPassword(password);
+        this.dataSource = dataSource;
+        this.jdbcTemplate = new JdbcTemplate(this.dataSource);
+        return checkDatabaseConnection();
+    }
+
+    private boolean checkDatabaseConnection() {
         try (Connection connection = dataSource.getConnection()) {
             log.info("Connection to the database is successful");
+            return true;
         } catch (SQLException e) {
             logError("Failed to connect to the database", e);
+            return false;
         } catch (Exception e) {
             logError("An unexpected error occurred while connecting to the database", e);
+            return false;
         }
     }
 

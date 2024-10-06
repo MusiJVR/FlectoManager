@@ -1,6 +1,7 @@
 package org.flectomanager;
 
 import org.flectomanager.util.DatabaseDriver;
+import org.flectomanager.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,6 @@ public class DatabaseOperations {
 
     @PostConstruct
     public void init() {
-        databaseDriver.createTable("rent_sbt", "id INT PRIMARY KEY AUTO_INCREMENT", "player VARCHAR(16)", "address VARCHAR(256)", "start_of_rental DATE", "end_of_rental DATE", "contract_date DATE", "price INT");
+        Utils.updateConfig();
     }
 }

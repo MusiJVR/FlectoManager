@@ -19,7 +19,6 @@ public class PropertiesReader {
                 return;
             }
 
-            // Загружаем свойства из файла
             properties.load(input);
         } catch (IOException ex) {
             log.error("Failed to load {}", ex.getMessage());

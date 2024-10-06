@@ -1,12 +1,18 @@
 .root {
     -fx-font-family: "Consolas";
     -fx-font-size: 14px;
-    -fx-background-color: #1E1F22;
+    -fx-background-color: #1e1f22;
     -fx-padding: 10px;
 }
 
+.separator .line {
+    -fx-pref-width: 2;
+    -fx-background-color: #313438;
+    -fx-border-color: null;
+}
+
 .button {
-    -fx-background-color: #2D2D30;
+    -fx-background-color: #2d2d30;
     -fx-text-fill: white;
     -fx-padding: 10px 20px;
     -fx-border-radius: 5px;
@@ -15,5 +21,34 @@
 }
 
 .button:hover {
-    -fx-background-color: #2E436E;
+    -fx-background-color: #2e436e;
+}
+
+#connection-window {
+    -fx-padding: 15px;
+    -fx-background-color: #1e1f22;
+    -fx-border-radius: 8px;
+}
+
+#connection-window Label {
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+#connection-window TextField {
+    -fx-border-radius: 4px;
+    -fx-padding: 5px;
+}
+
+#connection-window Button {
+    -fx-background-color: #2d2d30;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-pref-width: 300px;
+}
+
+#connection-window Button:hover {
+    -fx-background-color: #2e436e;
 }

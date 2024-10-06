@@ -6,16 +6,76 @@ import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
     private static final Logger log = LoggerFactory.getLogger(Utils.class);
 
-    public static Image load(String path) {
+    public static void updateConfig(String url, String username, String password) {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        options.setPrettyFlow(true);
+        Yaml yaml = new Yaml(options);
+
+        Map<String, Object> configDataMap = new HashMap<>();
+        Map<String, Object> dataSourceMap = new HashMap<>();
+
+        dataSourceMap.put("url", url);
+        dataSourceMap.put("user", username);
+        dataSourceMap.put("password", password);
+        configDataMap.put("datasource", dataSourceMap);
+
+        try (FileWriter writer = new FileWriter(new File(getJarContainingFolder(), "configuration/config.yml"))) {
+            yaml.dump(configDataMap, writer);
+        } catch (IOException e) {
+            log.error("Error writing to config.yml: {}", e.getMessage());
+        }
+    }
+
+    public static void updateConfig() {
+        if (!checkConfig()) updateConfig("", "", "");
+    }
+
+    public static boolean checkConfig() {
+        File configDir = new File(getJarContainingFolder(), "configuration");
+        if (!configDir.exists()) {
+            configDir.mkdir();
+            return false;
+        }
+
+        File configFile = new File(configDir, "config.yml");
+
+        return configFile.exists();
+    }
+
+    public static Map<String, Object> readConfig() {
+        Yaml yaml = new Yaml();
+
+        if (checkConfig()) {
+            try (InputStream inputStream = new FileInputStream(getJarContainingFolder() + "/configuration/config.yml")) {
+                return yaml.load(inputStream);
+            } catch (IOException e) {
+                log.error("Error reading application.yml: {}", e.getMessage());
+            }
+        }
+
+        return null;
+    }
+
+    public static String getJarContainingFolder() {
+        String path = System.getProperty("java.class.path");
+        int lastSlashIndex = path.lastIndexOf('/');
+        if (lastSlashIndex != -1) {
+            return path.substring(0, path.lastIndexOf('/'));
+        } else return "";
+    }
+
+    public static Image loadSVG(String path) {
         try (InputStream svgStream = Utils.class.getClassLoader().getResourceAsStream(path)) {
             if (svgStream == null) throw new FileNotFoundException("SVG file not found: " + path);
             PNGTranscoder transcoder = new PNGTranscoder();
