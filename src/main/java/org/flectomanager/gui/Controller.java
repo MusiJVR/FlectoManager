@@ -49,10 +49,7 @@ public class Controller {
     }
 
     public void connectOpenWindow() {
-        if (connectionStage != null && connectionStage.isShowing()) {
-            connectionStage.requestFocus();
-            return;
-        }
+        if (focusIfOpen(connectionStage)) return;
 
         connectionStage = new Stage();
         connectionStage.setTitle("Подключение к БД");
@@ -96,5 +93,12 @@ public class Controller {
         Utils.updateConfig(url, username, password);
         databaseDriver.connect(url, username, password);
         connectionStage.close();
+    }
+
+    private boolean focusIfOpen(Stage stage) {
+        if (stage != null && connectionStage.isShowing()) {
+            stage.requestFocus();
+            return true;
+        } else return false;
     }
 }

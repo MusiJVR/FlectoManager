@@ -24,12 +24,14 @@ public class DatabaseDriver {
     @PostConstruct
     public void init() {
         Map<String, Object> configDataMap = Utils.readConfig();
+        boolean connectionAttempted = false;
+
         if (configDataMap != null) {
             Map<String, Object> dataSourceMap = (Map<String, Object>) configDataMap.get("datasource");
-            connect((String) dataSourceMap.get("url"), (String) dataSourceMap.get("user"), (String) dataSourceMap.get("password"));
-        } else {
-            log.warn("Automatic connection to the database was not made");
+            connectionAttempted = connect((String) dataSourceMap.get("url"), (String) dataSourceMap.get("user"), (String) dataSourceMap.get("password"));
         }
+
+        if (!connectionAttempted) log.warn("Automatic connection to the database was not made");
     }
 
     public boolean connect(String url, String username, String password) {
@@ -39,7 +41,11 @@ public class DatabaseDriver {
         dataSource.setPassword(password);
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(this.dataSource);
-        return checkDatabaseConnection();
+        boolean connectionAttempted = checkDatabaseConnection();
+
+        if (connectionAttempted) Utils.updateConfig(getTableColumns());
+
+        return connectionAttempted;
     }
 
     private boolean checkDatabaseConnection() {
@@ -53,6 +59,36 @@ public class DatabaseDriver {
             logError("An unexpected error occurred while connecting to the database", e);
             return false;
         }
+    }
+
+    public List<String> getTableNames() {
+        String query = "SHOW TABLES";
+
+        try {
+            return jdbcTemplate.query(query, (rs, rowNum) -> rs.getString(1));
+        } catch (Exception e) {
+            logError("Failed to retrieve table names", e);
+            return Collections.emptyList();
+        }
+    }
+
+    public Map<String, List<String>> getTableColumns(String... tableNames) {
+        Map<String, List<String>> tableColumns = new HashMap<>();
+
+        if (tableNames == null || tableNames.length == 0) tableNames = getTableNames().toArray(new String[0]);
+
+        for (String tableName : tableNames) {
+            String query = "SHOW COLUMNS FROM " + tableName;
+            try {
+                List<String> columns = jdbcTemplate.query(query, (rs, rowNum) -> rs.getString("Field"));
+                tableColumns.put(tableName, columns);
+            } catch (Exception e) {
+                logError("Failed to retrieve columns for table " + tableName, e);
+                tableColumns.put(tableName, Collections.emptyList());
+            }
+        }
+
+        return tableColumns;
     }
 
     public void createTable(String table, String... columns) {
