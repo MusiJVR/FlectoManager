@@ -1,11 +1,9 @@
-package org.flectomanager.util;
+package com.flectomanager.util;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -136,6 +134,24 @@ public class DatabaseDriver {
             jdbcTemplate.update(String.format("INSERT INTO %s (%s) VALUES (%s);", table, columns, values), data.values().toArray());
         } catch (Exception e) {
             logError("Failed to insert data into table " + table, e);
+        }
+    }
+
+    public void updateData(String table, Map<String, Object> data, String condition, Object... parameters) {
+        StringJoiner columns = new StringJoiner(", ");
+        data.forEach((key, value) -> columns.add(key + " = ?"));
+
+        Object[] values = new Object[data.size() + parameters.length];
+        int index = 0;
+
+        for (Object value : data.values()) values[index++] = value;
+
+        for (Object param : parameters) values[index++] = param;
+
+        try {
+            jdbcTemplate.update(String.format("UPDATE %s SET %s WHERE %S;", table, columns, condition), values);
+        } catch (Exception e) {
+            logError("Failed to update data in table " + table, e);
         }
     }
 

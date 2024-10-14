@@ -1,4 +1,4 @@
-package org.flectomanager.gui;
+package com.flectomanager.gui;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -7,8 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.flectomanager.util.DatabaseDriver;
-import org.flectomanager.util.Utils;
+import com.flectomanager.util.DatabaseDriver;
+import com.flectomanager.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

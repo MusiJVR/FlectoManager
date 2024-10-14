@@ -1,9 +1,9 @@
-package org.flectomanager;
+package com.flectomanager;
 
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import org.flectomanager.gui.MainWindow;
-import org.flectomanager.util.PropertiesReader;
+import com.flectomanager.gui.MainWindow;
+import com.flectomanager.util.PropertiesReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

@@ -1,12 +1,8 @@
-package org.flectomanager.util;
+package com.flectomanager.util;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
-import org.flectomanager.gui.Controller;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import com.flectomanager.gui.Controller;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.sql.DataSource;
 
 @Configuration
 public class ApplicationContextConfiguration {

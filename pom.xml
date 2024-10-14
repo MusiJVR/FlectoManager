@@ -84,7 +84,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>org.flectomanager.Main</mainClass>
+                    <mainClass>com.flectomanager.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>

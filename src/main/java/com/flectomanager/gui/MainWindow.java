@@ -1,4 +1,4 @@
-package org.flectomanager.gui;
+package com.flectomanager.gui;
 
 import javafx.application.Application;
 import javafx.geometry.Orientation;
@@ -12,8 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.flectomanager.Main;
-import org.flectomanager.util.Utils;
+import com.flectomanager.Main;
+import com.flectomanager.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

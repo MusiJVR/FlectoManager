@@ -1,4 +1,4 @@
-package org.flectomanager.util;
+package com.flectomanager.util;
 
 import javafx.scene.image.Image;
 import org.apache.batik.transcoder.TranscoderInput;
