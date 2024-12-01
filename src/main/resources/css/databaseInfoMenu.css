@@ -1,0 +1,68 @@
+.custom-scroll-pane {
+    -fx-background: #1e1f22;
+    -fx-background-color: transparent;
+}
+
+.arrow-icon {
+    -fx-rotate: 270;
+    -fx-fit-width: 30px;
+    -fx-fit-height: 30px;
+}
+
+.menu-label {
+    -fx-pref-width: 200px;
+    -fx-pref-height: 30px;
+}
+
+.menu-root {
+    -fx-spacing: 5;
+}
+
+.menu-item {
+    -fx-alignment: center-left;
+    -fx-padding: 5px 10px;
+    -fx-cursor: hand;
+}
+
+.menu-item .label {
+    -fx-text-fill: white;
+}
+
+.menu-item.level-0 {
+    -fx-padding: 0 0 0 0;
+}
+
+.menu-item.level-1 {
+    -fx-padding: 0 0 0 20px;
+}
+
+.menu-item.level-2 {
+    -fx-padding: 0 0 0 40px;
+}
+
+.menu-item:hover {
+    -fx-background-color: #313438;
+}
+
+.reload-button {
+    -fx-background-color: transparent; /* Без фона */
+    -fx-border-color: transparent; /* Без границы */
+    -fx-padding: 0; /* Убираем отступы */
+    -fx-alignment: center; /* Центрируем содержимое */
+}
+
+.reload-button .image-view {
+    -fx-fit-width: 20px;  /* Устанавливаем размеры иконки */
+    -fx-fit-height: 20px;
+}
+
+/* Для контейнера, в который помещена кнопка */
+.reload-button {
+    -fx-background-color: transparent;
+}
+
+/* Устанавливаем позиционирование кнопки в левом нижнем углу */
+.vbox .reload-button {
+    -fx-alignment: bottom-left;
+    -fx-padding: 10px;
+}

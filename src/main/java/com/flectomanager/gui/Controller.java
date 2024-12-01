@@ -80,7 +80,7 @@ public class Controller {
         vbox.getChildren().add(buttonBox);
 
         Scene scene = new Scene(vbox, 400, 300);
-        scene.getStylesheets().add("styles.css");
+        scene.getStylesheets().add("css/base.css");
         connectionStage.setScene(scene);
         connectionStage.initOwner(primaryStage);
         connectionStage.setResizable(false);
@@ -93,6 +93,7 @@ public class Controller {
         Utils.updateConfig(url, username, password);
         databaseDriver.connect(url, username, password);
         connectionStage.close();
+        MainWindow.getInstance().updateDatabaseInfoBox();
     }
 
     private boolean focusIfOpen(Stage stage) {

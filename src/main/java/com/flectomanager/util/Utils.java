@@ -41,11 +41,7 @@ public class Utils {
         }
 
         for (Map.Entry<String, List<String>> table : databaseTablesMap.entrySet()) {
-            String tableName = table.getKey();
-            List<String> tableColumns = table.getValue();
-            Map<String, Object> tablesMap = new LinkedHashMap<>();
-            tablesMap.put(tableName, tableColumns);
-            newDataSourceMap.put("tables", tablesMap);
+            newDataSourceMap.put("tables", updateTableColumnsConfig(table));
         }
 
         newConfigDataMap.put("datasource", newDataSourceMap);
@@ -55,6 +51,25 @@ public class Utils {
 
     public static void updateConfig() {
         if (!checkConfig()) updateConfig("", "", "");
+    }
+
+    public static Map<String, Object> updateTableColumnsConfig(Map.Entry<String, List<String>> table) {
+        String tableName = table.getKey();
+        List<String> tableColumns = table.getValue();
+        Map<String, Object> tablesMap = new LinkedHashMap<>();
+        tablesMap.put(tableName, tableColumns);
+        return tablesMap;
+    }
+
+    public static String getDatabaseName() {
+        Map<String, Object> configDataMap = Utils.readConfig();
+        if (configDataMap != null) {
+            Map<String, Object> dataSourceMap = (Map<String, Object>) configDataMap.get("datasource");
+            String url = (String) dataSourceMap.get("url");
+            return url.substring(url.lastIndexOf("/") + 1);
+        }
+
+        return null;
     }
 
     public static boolean checkConfig() {
