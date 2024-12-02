@@ -33,9 +33,6 @@ public class MainWindow extends Application {
     @Autowired
     private DatabaseDriver databaseDriver;
 
-    @Autowired
-    private Controller controller;
-
     private static MainWindow instance;
     private VBox databaseInfoBox;
     private static final int LEVEL_DATABASE = 0;
@@ -54,10 +51,10 @@ public class MainWindow extends Application {
     public void start(Stage stage) throws Exception {
         log.info("Launch {} {}!", Main.PROJECT_NAME, Main.PROJECT_VERSION);
 
-        controller.setPrimaryStage(stage);
-
         stage.setTitle("FlectoManager");
         stage.getIcons().add(new Image("textures/icon.png"));
+
+        ConnectionWindow connectionWindow = new ConnectionWindow(databaseDriver, stage);
 
         Separator separator = new Separator();
         separator.getStyleClass().add("separator");
@@ -71,7 +68,7 @@ public class MainWindow extends Application {
         scrollPane.setFitToWidth(true);
 
         Button connectDBButton = new Button("Подключиться к БД", new ImageView(Utils.loadSVG("textures/icon_connect.svg")));
-        connectDBButton.setOnAction(e -> controller.connectOpenWindow());
+        connectDBButton.setOnAction(e -> connectionWindow.show());
 
         HBox workspace = new HBox(20);
         workspace.getChildren().add(connectDBButton);

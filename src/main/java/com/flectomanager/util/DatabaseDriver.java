@@ -41,7 +41,8 @@ public class DatabaseDriver {
         this.jdbcTemplate = new JdbcTemplate(this.dataSource);
         boolean connectionAttempted = checkDatabaseConnection();
 
-        if (connectionAttempted) Utils.updateConfig(getTableColumns());
+        // TODO
+        // if (connectionAttempted) Utils.updateConfig(getTableColumns());
 
         return connectionAttempted;
     }

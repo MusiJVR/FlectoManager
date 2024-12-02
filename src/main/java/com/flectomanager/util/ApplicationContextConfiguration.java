@@ -1,6 +1,5 @@
 package com.flectomanager.util;
 
-import com.flectomanager.gui.Controller;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,10 +14,5 @@ public class ApplicationContextConfiguration {
     @Bean
     public DatabaseDriver databaseDriver() {
         return new DatabaseDriver();
-    }
-
-    @Bean
-    public Controller controller() {
-        return new Controller();
     }
 }
