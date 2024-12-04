@@ -61,7 +61,7 @@ public class DatabaseWorkspace extends VBox {
     private void executeQuery() {
         String query = queryArea.getText();
         if (query.trim().isEmpty()) {
-            showAlert("Ошибка", "Введите запрос перед выполнением.", CustomAlertWindow.AlertType.ERROR);
+            showAlert("Предупреждение", "Введите запрос перед выполнением.", CustomAlertWindow.AlertType.WARNING);
             log.warn("Query is empty <{}>", query);
             return;
         }
@@ -78,7 +78,7 @@ public class DatabaseWorkspace extends VBox {
 
             log.info("Query completed successfully <{}>", query);
         } catch (Exception e) {
-            showAlert("Ошибка выполнения", "Произошла ошибка при выполнении запроса: " + e.getMessage(), CustomAlertWindow.AlertType.DEFAULT);
+            showAlert("Ошибка выполнения", "Произошла ошибка при выполнении запроса: " + e.getMessage(), CustomAlertWindow.AlertType.ERROR);
             log.error("Query returns the error <{}>: {}", query, e.getMessage());
         }
     }

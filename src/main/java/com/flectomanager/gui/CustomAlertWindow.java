@@ -52,7 +52,7 @@ public class CustomAlertWindow extends Window {
     private void setIcon() {
         String iconPath = switch (alertType) {
             case ERROR -> "textures/error.svg";
-            case WARNING -> "textures/warn.svg";
+            case WARNING -> "textures/warning.svg";
             case INFO -> "textures/info.svg";
             case DEFAULT -> "textures/icon.svg";
         };
