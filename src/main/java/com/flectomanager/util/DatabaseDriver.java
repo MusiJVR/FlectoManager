@@ -103,6 +103,28 @@ public class DatabaseDriver {
         }
     }
 
+    public Object customQuery(String query) {
+        try {
+            String trimmedQuery = query.trim().toUpperCase();
+            if (trimmedQuery.startsWith("SELECT")) {
+                return jdbcTemplate.query(query, (ResultSet rs, int rowNum) -> {
+                    Map<String, Object> rowMap = new LinkedHashMap<>();
+                    ResultSetMetaData metaData = rs.getMetaData();
+                    for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                        rowMap.put(metaData.getColumnName(i), rs.getObject(i));
+                    }
+                    return rowMap;
+                });
+            } else {
+                int affectedRows = jdbcTemplate.update(query);
+                return String.format("Query completed successfully. %d rows affected.", affectedRows);
+            }
+        } catch (Exception e) {
+            logError(String.format("Failed to execute database query <%s>", query), e);
+            throw new RuntimeException("Query execution failed: " + e.getMessage());
+        }
+    }
+
     public List<Map<String, Object>> selectData(String columns, String table, String condition, Object... parameters) {
         StringBuilder query = new StringBuilder(String.format("SELECT %s FROM %s", columns, table));
 

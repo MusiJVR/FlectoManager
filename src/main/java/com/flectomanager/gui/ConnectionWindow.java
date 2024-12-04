@@ -16,6 +16,7 @@ public class ConnectionWindow extends Window {
     private static final Logger log = LoggerFactory.getLogger(ConnectionWindow.class);
 
     private final DatabaseDriver databaseDriver;
+    private final MainWindow mainWindow = MainWindow.getInstance();
 
     public ConnectionWindow(DatabaseDriver databaseDriver, Stage primaryStage) {
         super(primaryStage);
@@ -63,8 +64,12 @@ public class ConnectionWindow extends Window {
     public void connectToDatabase(String url, String username, String password) {
         log.info("Connection attempt...");
         Utils.updateConfig(url, username, password);
-        databaseDriver.connect(url, username, password);
+        if (databaseDriver.connect(url, username, password)) {
+            mainWindow.clearWorkspace();
+            DatabaseWorkspace workspace = new DatabaseWorkspace(primaryStage);
+            mainWindow.addToWorkspace(workspace);
+        }
         currentStage.close();
-        MainWindow.getInstance().updateDatabaseInfoBox();
+        mainWindow.updateDatabaseInfoBox();
     }
 }

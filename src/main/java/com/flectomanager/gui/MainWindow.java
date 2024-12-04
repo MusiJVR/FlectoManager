@@ -35,6 +35,7 @@ public class MainWindow extends Application {
 
     private static MainWindow instance;
     private VBox databaseInfoBox;
+    private HBox workspace;
     private static final int LEVEL_DATABASE = 0;
     private static final int LEVEL_TABLE = 1;
     private static final int LEVEL_COLUMN = 2;
@@ -45,6 +46,10 @@ public class MainWindow extends Application {
 
     public static MainWindow getInstance() {
         return instance;
+    }
+
+    public DatabaseDriver getDatabaseDriver() {
+        return databaseDriver;
     }
 
     @Override
@@ -67,10 +72,10 @@ public class MainWindow extends Application {
         scrollPane.getStyleClass().add("custom-scroll-pane");
         scrollPane.setFitToWidth(true);
 
-        Button connectDBButton = new Button("Подключиться к БД", new ImageView(Utils.loadSVG("textures/icon_connect.svg")));
+        Button connectDBButton = new Button("Подключиться к БД", new ImageView(Utils.loadFromSVG("textures/icon_connect.svg")));
         connectDBButton.setOnAction(e -> connectionWindow.show());
 
-        HBox workspace = new HBox(20);
+        workspace = new HBox(20);
         workspace.getChildren().add(connectDBButton);
         workspace.setAlignment(Pos.CENTER);
         HBox.setHgrow(workspace, Priority.ALWAYS);
@@ -79,8 +84,10 @@ public class MainWindow extends Application {
         mainLayout.getChildren().addAll(scrollPane, separator, workspace);
 
         Scene scene = new Scene(mainLayout, 1200, 800);
+        //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         scene.getStylesheets().add("css/base.css");
         scene.getStylesheets().add("css/databaseInfoMenu.css");
+        scene.getStylesheets().add("css/databaseWorkspace.css");
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case F1:
@@ -103,6 +110,14 @@ public class MainWindow extends Application {
             }
         });
         stage.show();
+    }
+
+    public void clearWorkspace() {
+        workspace.getChildren().clear();
+    }
+
+    public void addToWorkspace(Node... nodes) {
+        workspace.getChildren().addAll(nodes);
     }
 
     public void updateDatabaseInfoBox() {
@@ -148,7 +163,7 @@ public class MainWindow extends Application {
         databaseBox.getChildren().add(tablesBox);
 
         Button reloadButton = new Button();
-        ImageView reloadIcon = new ImageView(Utils.loadSVG("textures/icon_reload.svg"));
+        ImageView reloadIcon = new ImageView(Utils.loadFromSVG("textures/icon_reload.svg"));
         reloadButton.setGraphic(reloadIcon);
         reloadButton.getStyleClass().add("reload-button");
         reloadButton.setOnAction(e -> updateDatabaseInfoBox());
@@ -168,7 +183,7 @@ public class MainWindow extends Application {
         itemBox.getStyleClass().add("menu-item");
         itemBox.getStyleClass().add("level-" + level);
 
-        ImageView arrowIcon = new ImageView(Utils.loadSVG("textures/icon_arrow.svg"));
+        ImageView arrowIcon = new ImageView(Utils.loadFromSVG("textures/icon_arrow.svg"));
         arrowIcon.getStyleClass().add("arrow-icon");
         arrowIcon.setVisible(level < LEVEL_COLUMN);
 

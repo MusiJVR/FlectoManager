@@ -120,7 +120,7 @@ public class Utils {
         } else return "";
     }
 
-    public static Image loadSVG(String path) {
+    public static Image loadFromSVG(String path) {
         try (InputStream svgStream = Utils.class.getClassLoader().getResourceAsStream(path)) {
             if (svgStream == null) throw new FileNotFoundException("SVG file not found: " + path);
             PNGTranscoder transcoder = new PNGTranscoder();

@@ -1,0 +1,34 @@
+.workspace-container {
+    -fx-background-color: #1e1f22;
+}
+
+.button-area {
+    -fx-alignment: center-left;
+}
+
+.query-area {
+    -fx-control-inner-background: #2d2d30;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #a6a6a6;
+}
+
+.result-table {
+    -fx-background-color: #2d2d30;
+    -fx-border-color: #313438;
+    -fx-text-fill: white;
+}
+
+.result-table .column-header {
+    -fx-background-color: #313438;
+}
+
+.result-table .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.result-table .cell {
+    -fx-background-color: #2d2d30;
+    -fx-text-fill: white;
+}
