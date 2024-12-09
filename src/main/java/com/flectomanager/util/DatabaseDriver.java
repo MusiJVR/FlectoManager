@@ -64,7 +64,7 @@ public class DatabaseDriver {
                     ((HikariDataSource) dataSource).close();
                     log.info("Сonnection to the database was closed successfully");
                 } else {
-                    log.info("Connection is already closed.");
+                    log.info("Connection is already closed");
                 }
             } else {
                 log.warn("DataSource is not an instance of HikariDataSource, cannot be closed explicitly");
