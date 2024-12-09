@@ -2,6 +2,8 @@ package com.flectomanager.gui;
 
 import com.flectomanager.util.DatabaseDriver;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -59,7 +61,7 @@ public class MainWindow extends Application {
         stage.setTitle("FlectoManager");
         stage.getIcons().add(new Image("textures/icon.png"));
 
-        ConnectionWindow connectionWindow = new ConnectionWindow(databaseDriver, stage);
+        ConnectionWindow connectionWindow = new ConnectionWindow(databaseDriver, Main.mainStage);
 
         Separator separator = new Separator();
         separator.getStyleClass().add("separator");
@@ -76,6 +78,7 @@ public class MainWindow extends Application {
         connectDBButton.setOnAction(e -> connectionWindow.show());
 
         workspace = new HBox(20);
+        workspace.getStyleClass().add("workspace");
         workspace.getChildren().add(connectDBButton);
         workspace.setAlignment(Pos.CENTER);
         HBox.setHgrow(workspace, Priority.ALWAYS);
@@ -174,20 +177,24 @@ public class MainWindow extends Application {
             databaseBox.getChildren().add(tablesBox);
         }
 
-        Button reloadButton = new Button();
-        ImageView reloadIcon = new ImageView(Utils.loadFromSVG("textures/icon_reload.svg"));
-        reloadButton.setGraphic(reloadIcon);
-        reloadButton.getStyleClass().add("reload-button");
-        reloadButton.setOnAction(e -> updateDatabaseInfoBox());
-
-        HBox reloadBox = new HBox(reloadButton);
-        reloadBox.setAlignment(Pos.BOTTOM_LEFT);
-        reloadBox.setMaxWidth(Double.MAX_VALUE);
+        HBox reloadBox = new HBox(
+                createCustomMenuButton("menu-button", "textures/icon_reload.svg", e -> updateDatabaseInfoBox())
+        );
+        reloadBox.getStyleClass().add("button-container");
 
         databaseInfoBox.getChildren().add(reloadBox);
         databaseInfoBox.getChildren().add(databaseBox);
 
         return databaseInfoBox;
+    }
+
+    private Button createCustomMenuButton(String className, String iconPath, EventHandler<ActionEvent> event) {
+        Button button = new Button();
+        ImageView buttonIcon = new ImageView(Utils.loadFromSVG(iconPath));
+        button.setGraphic(buttonIcon);
+        button.getStyleClass().add(className);
+        button.setOnAction(event);
+        return button;
     }
 
     private HBox createMenuItem(String text, int level, Runnable onClick, Node toggleNode) {

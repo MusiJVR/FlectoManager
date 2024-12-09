@@ -15,6 +15,7 @@
 }
 
 .menu-root {
+    -fx-pref-width: 300px;
     -fx-spacing: 5;
 }
 
@@ -44,25 +45,24 @@
     -fx-background-color: #313438;
 }
 
-.reload-button {
-    -fx-background-color: transparent; /* Без фона */
-    -fx-border-color: transparent; /* Без границы */
-    -fx-padding: 0; /* Убираем отступы */
-    -fx-alignment: center; /* Центрируем содержимое */
+.button-container {
+    -fx-spacing: 5px;
 }
 
-.reload-button .image-view {
-    -fx-fit-width: 20px;  /* Устанавливаем размеры иконки */
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-pref-width: 20px;
+    -fx-alignment: center;
+}
+
+.menu-button .image-view {
+    -fx-fit-width: 20px;
     -fx-fit-height: 20px;
 }
 
-/* Для контейнера, в который помещена кнопка */
-.reload-button {
-    -fx-background-color: transparent;
-}
-
-/* Устанавливаем позиционирование кнопки в левом нижнем углу */
-.vbox .reload-button {
-    -fx-alignment: bottom-left;
+.vbox .menu-button {
+    -fx-alignment: top-left;
     -fx-padding: 10px;
 }

@@ -29,6 +29,7 @@ public class DatabaseWorkspace extends VBox {
         this.setSpacing(10);
         this.getStyleClass().add("workspace-container");
         this.setPadding(new Insets(10));
+        HBox.setHgrow(this, Priority.ALWAYS);
 
         executeButton = new Button("Выполнить запрос");
         clearButton = new Button("Очистить");
