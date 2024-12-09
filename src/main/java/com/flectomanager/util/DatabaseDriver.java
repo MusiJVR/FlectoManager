@@ -1,6 +1,6 @@
 package com.flectomanager.util;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,32 +25,74 @@ public class DatabaseDriver {
 
         if (configDataMap != null) {
             Map<String, Object> dataSourceMap = (Map<String, Object>) configDataMap.get("datasource");
-            connect((String) dataSourceMap.get("url"), (String) dataSourceMap.get("user"), (String) dataSourceMap.get("password"));
+            if (isValidDataSourceConfig(dataSourceMap)) {
+                connect((String) dataSourceMap.get("url"), (String) dataSourceMap.get("user"), (String) dataSourceMap.get("password"));
+            }
         }
 
         if (!checkDatabaseConnection(true)) log.warn("Automatic connection to the database was not made");
     }
 
+    private boolean isValidDataSourceConfig(Map<String, Object> dataSourceMap) {
+        if (dataSourceMap == null) return false;
+
+        String url = (String) dataSourceMap.get("url");
+        String user = (String) dataSourceMap.get("user");
+        String password = (String) dataSourceMap.get("password");
+
+        return isNotEmpty(url) && isNotEmpty(user) && isNotEmpty(password);
+    }
+
+    private boolean isNotEmpty(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
+
     public void connect(String url, String username, String password) {
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setURL(url);
-        dataSource.setUser(username);
-        dataSource.setPassword(password);
-        this.dataSource = dataSource;
-        this.jdbcTemplate = new JdbcTemplate(this.dataSource);
+        HikariDataSource hikariDataSource = new HikariDataSource();
+        hikariDataSource.setJdbcUrl(url);
+        hikariDataSource.setUsername(username);
+        hikariDataSource.setPassword(password);
+        dataSource = hikariDataSource;
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    public void close() {
+        try {
+            if (dataSource instanceof HikariDataSource) {
+                if (checkDatabaseConnection(false)) {
+                    ((HikariDataSource) dataSource).close();
+                    log.info("Сonnection to the database was closed successfully");
+                } else {
+                    log.info("Connection is already closed.");
+                }
+            } else {
+                log.warn("DataSource is not an instance of HikariDataSource, cannot be closed explicitly");
+            }
+        } catch (Exception e) {
+            logError("Failed to close database connection", e);
+        }
     }
 
     public boolean checkDatabaseConnection(boolean logs) {
-        try (Connection connection = dataSource.getConnection()) {
-            if (logs) log.info("Connection to the database is successful");
-            return true;
-        } catch (SQLException e) {
-            if (logs) logError("Failed to connect to the database", e);
-            return false;
+        try {
+            if (dataSource instanceof HikariDataSource) {
+                HikariDataSource hikariDataSource = (HikariDataSource) dataSource;
+                boolean connectionStatus = !hikariDataSource.isClosed();
+                if (connectionStatus) {
+                    if (logs) log.info("Connection to the database is successful");
+                } else {
+                    if (logs) log.warn("Failed to connect to the database");
+                }
+                return connectionStatus;
+            } else {
+                if (logs) log.warn("DataSource is not an instance of HikariDataSource, cannot be closed explicitly");
+            }
         } catch (Exception e) {
             if (logs) logError("An unexpected error occurred while connecting to the database", e);
-            return false;
         }
+
+        return false;
     }
 
     public List<String> getTableNames() {

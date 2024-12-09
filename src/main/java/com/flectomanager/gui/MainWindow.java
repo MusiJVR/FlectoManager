@@ -36,6 +36,7 @@ public class MainWindow extends Application {
     private DatabaseDriver databaseDriver;
 
     private static MainWindow instance;
+    private static ConnectionWindow connectionWindow;
     private VBox databaseInfoBox;
     private HBox workspace;
     private static final int LEVEL_DATABASE = 0;
@@ -61,7 +62,7 @@ public class MainWindow extends Application {
         stage.setTitle("FlectoManager");
         stage.getIcons().add(new Image("textures/icon.png"));
 
-        ConnectionWindow connectionWindow = new ConnectionWindow(databaseDriver, Main.mainStage);
+        connectionWindow = new ConnectionWindow(databaseDriver, Main.mainStage);
 
         Separator separator = new Separator();
         separator.getStyleClass().add("separator");
@@ -74,12 +75,9 @@ public class MainWindow extends Application {
         scrollPane.getStyleClass().add("custom-scroll-pane");
         scrollPane.setFitToWidth(true);
 
-        Button connectDBButton = new Button("Подключиться к БД", new ImageView(Utils.loadFromSVG("textures/icon_connect.svg")));
-        connectDBButton.setOnAction(e -> connectionWindow.show());
-
         workspace = new HBox(20);
         workspace.getStyleClass().add("workspace");
-        workspace.getChildren().add(connectDBButton);
+        workspace.getChildren().add(createConnectionButton());
         workspace.setAlignment(Pos.CENTER);
         HBox.setHgrow(workspace, Priority.ALWAYS);
 
@@ -115,6 +113,12 @@ public class MainWindow extends Application {
 
         if (databaseDriver.checkDatabaseConnection(false)) createNewWorkspace();
         stage.show();
+    }
+
+    public Button createConnectionButton() {
+        Button connectDBButton = new Button("Подключиться к БД", new ImageView(Utils.loadFromSVG("textures/icon_connect.svg")));
+        connectDBButton.setOnAction(e -> connectionWindow.show());
+        return connectDBButton;
     }
 
     public void createNewWorkspace() {
@@ -178,6 +182,13 @@ public class MainWindow extends Application {
         }
 
         HBox reloadBox = new HBox(
+                createCustomMenuButton("menu-button", "textures/icon_logout.svg", e -> {
+                    databaseDriver.close();
+                    updateDatabaseInfoBox();
+                    clearWorkspace();
+                    addToWorkspace(createConnectionButton());
+                }),
+                createCustomMenuButton("menu-button", "textures/icon_connect.svg", e -> connectionWindow.show()),
                 createCustomMenuButton("menu-button", "textures/icon_reload.svg", e -> updateDatabaseInfoBox())
         );
         reloadBox.getStyleClass().add("button-container");
