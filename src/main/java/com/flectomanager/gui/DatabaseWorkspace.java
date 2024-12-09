@@ -1,8 +1,10 @@
 package com.flectomanager.gui;
 
+import com.flectomanager.util.Utils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -31,9 +33,9 @@ public class DatabaseWorkspace extends VBox {
         this.setPadding(new Insets(10));
         HBox.setHgrow(this, Priority.ALWAYS);
 
-        executeButton = new Button("Выполнить запрос");
-        clearButton = new Button("Очистить");
-        saveButton = new Button("Сохранить запрос");
+        executeButton = new Button("Выполнить запрос", new ImageView(Utils.loadFromSVG("textures/icon_query.svg")));
+        clearButton = new Button("Очистить", new ImageView(Utils.loadFromSVG("textures/icon_clear.svg")));
+        saveButton = new Button("Сохранить запрос", new ImageView(Utils.loadFromSVG("textures/icon_save.svg")));
         applyButtonStyle(executeButton, clearButton, saveButton);
 
         buttonArea = new HBox(10, executeButton, clearButton, saveButton);

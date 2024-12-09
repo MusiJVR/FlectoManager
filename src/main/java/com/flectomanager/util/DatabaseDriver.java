@@ -47,7 +47,6 @@ public class DatabaseDriver {
         return value != null && !value.trim().isEmpty();
     }
 
-
     public void connect(String url, String username, String password) {
         HikariDataSource hikariDataSource = new HikariDataSource();
         hikariDataSource.setJdbcUrl(url);
