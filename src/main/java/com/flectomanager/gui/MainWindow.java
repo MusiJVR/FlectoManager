@@ -109,58 +109,70 @@ public class MainWindow extends Application {
                 event.consume();
             }
         });
+
+        if (databaseDriver.checkDatabaseConnection(false)) createNewWorkspace();
         stage.show();
     }
 
+    public void createNewWorkspace() {
+        clearWorkspace();
+        if (Main.mainStage != null) {
+            DatabaseWorkspace workspace = new DatabaseWorkspace(Main.mainStage);
+            addToWorkspace(workspace);
+        }
+    }
+
     public void clearWorkspace() {
-        workspace.getChildren().clear();
+        if (workspace != null) workspace.getChildren().clear();
     }
 
     public void addToWorkspace(Node... nodes) {
-        workspace.getChildren().addAll(nodes);
+        if (workspace != null) workspace.getChildren().addAll(nodes);
     }
 
     public void updateDatabaseInfoBox() {
-        VBox newButtonBox = createDatabaseInfoBox();
+        VBox newDatabaseInfoBox = createDatabaseInfoBox();
         databaseInfoBox.getChildren().clear();
-        databaseInfoBox.getChildren().addAll(newButtonBox.getChildren());
+        databaseInfoBox.getChildren().addAll(newDatabaseInfoBox.getChildren());
     }
 
     private VBox createDatabaseInfoBox() {
         VBox databaseInfoBox = new VBox();
+        VBox databaseBox = new VBox();
         databaseInfoBox.getStyleClass().add("menu-root");
 
         String dbName = Utils.getDatabaseName();
 
-        List<String> tables = databaseDriver.getTableNames();
-        VBox tablesBox = new VBox();
-        tablesBox.setVisible(false);
-        tablesBox.setManaged(false);
+        if (databaseDriver.checkDatabaseConnection(false)) {
+            List<String> tables = databaseDriver.getTableNames();
+            VBox tablesBox = new VBox();
+            tablesBox.setVisible(false);
+            tablesBox.setManaged(false);
 
-        for (String table : tables) {
-            List<String> columns = databaseDriver.getTableColumns().getOrDefault(table, List.of());
-            VBox columnsBox = new VBox();
-            columnsBox.setVisible(false);
-            columnsBox.setManaged(false);
+            for (String table : tables) {
+                List<String> columns = databaseDriver.getTableColumns().getOrDefault(table, List.of());
+                VBox columnsBox = new VBox();
+                columnsBox.setVisible(false);
+                columnsBox.setManaged(false);
 
-            for (String column : columns) {
-                HBox columnBox = createMenuItem(column, LEVEL_COLUMN, () -> handleColumnClick(column), columnsBox);
-                columnsBox.getChildren().add(columnBox);
+                for (String column : columns) {
+                    HBox columnBox = createMenuItem(column, LEVEL_COLUMN, () -> handleColumnClick(column), columnsBox);
+                    columnsBox.getChildren().add(columnBox);
+                }
+
+                VBox tableBox = new VBox();
+                HBox tableHeader = createMenuItem(table, LEVEL_TABLE, () -> handleTableClick(table), columnsBox);
+
+                tableBox.getChildren().add(tableHeader);
+                tableBox.getChildren().add(columnsBox);
+                tablesBox.getChildren().add(tableBox);
             }
 
-            VBox tableBox = new VBox();
-            HBox tableHeader = createMenuItem(table, LEVEL_TABLE, () -> handleTableClick(table), columnsBox);
+            HBox databaseHeader = createMenuItem(dbName, LEVEL_DATABASE, () -> handleDatabaseClick(dbName), tablesBox);
 
-            tableBox.getChildren().add(tableHeader);
-            tableBox.getChildren().add(columnsBox);
-            tablesBox.getChildren().add(tableBox);
+            databaseBox.getChildren().add(databaseHeader);
+            databaseBox.getChildren().add(tablesBox);
         }
-
-        VBox databaseBox = new VBox();
-        HBox databaseHeader = createMenuItem(dbName, LEVEL_DATABASE, () -> handleDatabaseClick(dbName), tablesBox);
-
-        databaseBox.getChildren().add(databaseHeader);
-        databaseBox.getChildren().add(tablesBox);
 
         Button reloadButton = new Button();
         ImageView reloadIcon = new ImageView(Utils.loadFromSVG("textures/icon_reload.svg"));

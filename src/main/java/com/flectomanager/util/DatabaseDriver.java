@@ -22,40 +22,33 @@ public class DatabaseDriver {
     @PostConstruct
     public void init() {
         Map<String, Object> configDataMap = Utils.readConfig();
-        boolean connectionAttempted = false;
 
         if (configDataMap != null) {
             Map<String, Object> dataSourceMap = (Map<String, Object>) configDataMap.get("datasource");
-            connectionAttempted = connect((String) dataSourceMap.get("url"), (String) dataSourceMap.get("user"), (String) dataSourceMap.get("password"));
+            connect((String) dataSourceMap.get("url"), (String) dataSourceMap.get("user"), (String) dataSourceMap.get("password"));
         }
 
-        if (!connectionAttempted) log.warn("Automatic connection to the database was not made");
+        if (!checkDatabaseConnection(true)) log.warn("Automatic connection to the database was not made");
     }
 
-    public boolean connect(String url, String username, String password) {
+    public void connect(String url, String username, String password) {
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL(url);
         dataSource.setUser(username);
         dataSource.setPassword(password);
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(this.dataSource);
-        boolean connectionAttempted = checkDatabaseConnection();
-
-        // TODO
-        // if (connectionAttempted) Utils.updateConfig(getTableColumns());
-
-        return connectionAttempted;
     }
 
-    private boolean checkDatabaseConnection() {
+    public boolean checkDatabaseConnection(boolean logs) {
         try (Connection connection = dataSource.getConnection()) {
-            log.info("Connection to the database is successful");
+            if (logs) log.info("Connection to the database is successful");
             return true;
         } catch (SQLException e) {
-            logError("Failed to connect to the database", e);
+            if (logs) logError("Failed to connect to the database", e);
             return false;
         } catch (Exception e) {
-            logError("An unexpected error occurred while connecting to the database", e);
+            if (logs) logError("An unexpected error occurred while connecting to the database", e);
             return false;
         }
     }

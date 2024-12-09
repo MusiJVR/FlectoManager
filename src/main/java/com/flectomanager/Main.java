@@ -16,6 +16,7 @@ public class Main {
     private static final PropertiesReader PROPERTIES_READER = new PropertiesReader("project.properties");
     public static final String PROJECT_NAME = PROPERTIES_READER.getProperty("project.name");
     public static final String PROJECT_VERSION = PROPERTIES_READER.getProperty("project.version");
+    public static Stage mainStage;
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(Main.class, args);
@@ -26,7 +27,8 @@ public class Main {
         Platform.startup(() -> {
             MainWindow mainWindow = context.getBean(MainWindow.class);
             try {
-                mainWindow.start(new Stage());
+                mainStage = new Stage();
+                mainWindow.start(mainStage);
             } catch (Exception e) {
                 log.error("Failed to start JavaFX application: {}", e.getMessage());
             }
