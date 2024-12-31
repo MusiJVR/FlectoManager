@@ -1,6 +1,12 @@
 package com.flectomanager.util;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
@@ -134,5 +140,16 @@ public class Utils {
             log.error("Failed to load SVG file: {}", e.getMessage());
         }
         return null;
+    }
+
+    public static Button createCustomMenuButton(String className, String iconPath, EventHandler<ActionEvent> event, String buttonText, String tooltipText) {
+        Button button = new Button();
+        ImageView buttonIcon = new ImageView(loadFromSVG(iconPath));
+        button.setGraphic(buttonIcon);
+        button.getStyleClass().add(className);
+        if (buttonText != null && !buttonText.isEmpty()) button.setText(buttonText);
+        if (tooltipText != null && !tooltipText.isEmpty()) button.setTooltip(new Tooltip(tooltipText) {{ setShowDelay(Duration.seconds(0.3)); }});
+        button.setOnAction(event);
+        return button;
     }
 }

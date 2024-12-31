@@ -54,6 +54,7 @@ public class ConnectionWindow extends Window {
         vbox.getChildren().add(buttonBox);
 
         Scene scene = new Scene(vbox, 400, 300);
+        scene.getRoot().getStyleClass().add("connection-root");
         scene.getStylesheets().add("css/base.css");
         currentStage.setScene(scene);
         currentStage.initOwner(primaryStage);

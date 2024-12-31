@@ -4,7 +4,6 @@ import com.flectomanager.util.Utils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -51,20 +50,21 @@ public class DatabaseWorkspace extends VBox {
         this.setPadding(new Insets(10));
         HBox.setHgrow(this, Priority.ALWAYS);
 
-        executeButton = new Button("", new ImageView(Utils.loadFromSVG("textures/icon_query.svg")));
-        clearButton = new Button("", new ImageView(Utils.loadFromSVG("textures/icon_clear.svg")));
-        openButton = new Button("", new ImageView(Utils.loadFromSVG("textures/icon_open.svg")));
-        saveButton = new Button("", new ImageView(Utils.loadFromSVG("textures/icon_save.svg")));
+        queryArea = new TextArea();
+        queryArea.getStyleClass().add("query-area");
+        queryArea.setPromptText("Введите ваш SQL-запрос здесь...");
+        queryArea.setWrapText(true);
+
+        executeButton = Utils.createCustomMenuButton("workspace-button", "textures/icon_query.svg", e -> executeQuery(), null, "Выполнить запрос");
+        clearButton = Utils.createCustomMenuButton("workspace-button", "textures/icon_clear.svg", e -> queryArea.clear(), null, "Очистить запрос");
+        openButton = Utils.createCustomMenuButton("workspace-button", "textures/icon_open.svg", e -> openQuery(), null, "Открыть запрос");
+        saveButton = Utils.createCustomMenuButton("workspace-button", "textures/icon_save.svg", e -> saveQuery(), null, "Сохранить запрос");
+
         applyButtonStyle(executeButton, clearButton, openButton, saveButton);
 
         buttonArea = new HBox(10, executeButton, clearButton, openButton, saveButton);
         buttonArea.getStyleClass().add("button-area");
         buttonArea.setPadding(new Insets(5));
-
-        queryArea = new TextArea();
-        queryArea.getStyleClass().add("query-area");
-        queryArea.setPromptText("Введите ваш SQL-запрос здесь...");
-        queryArea.setWrapText(true);
 
         Separator separator = new Separator();
 
@@ -74,11 +74,6 @@ public class DatabaseWorkspace extends VBox {
         resultTable.setVisible(false);
 
         this.getChildren().addAll(buttonArea, queryArea, separator, resultTable);
-
-        executeButton.setOnAction(e -> executeQuery());
-        clearButton.setOnAction(e -> queryArea.clear());
-        openButton.setOnAction(e -> openQuery());
-        saveButton.setOnAction(e -> saveQuery());
     }
 
     private void executeQuery() {
