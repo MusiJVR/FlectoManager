@@ -6,10 +6,14 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -129,8 +133,30 @@ public class DatabaseWorkspace extends VBox {
     }
 
     private void saveQuery() {
-        log.info("Save query...");
-        // TODO
+        String query = queryArea.getText();
+        if (query.trim().isEmpty()) {
+            showAlert("Предупреждение", "Запрос пуст. Нечего сохранять.", CustomAlertWindow.AlertType.WARNING);
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Сохранение SQL-запроса");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQL Files", "*.sql"));
+
+        fileChooser.setInitialFileName("query.sql");
+
+        File file = fileChooser.showSaveDialog(primaryStage);
+
+        if (file != null) {
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write(query);
+                showAlert("Успех", "Запрос успешно сохранен в файл:\n" + file.getAbsolutePath(), CustomAlertWindow.AlertType.INFO);
+            } catch (IOException e) {
+                showAlert("Ошибка", "Не удалось сохранить файл:\n" + e.getMessage(), CustomAlertWindow.AlertType.ERROR);
+            }
+        } else {
+            log.info("Сохранение запроса отменено пользователем");
+        }
     }
 
     private void showAlert(String title, String message, CustomAlertWindow.AlertType alertType) {
