@@ -25,7 +25,18 @@ public class DatabaseWorkspace extends VBox {
     private final Button clearButton;
     private final Button saveButton;
 
+    private static DatabaseWorkspace instance;
+
+    public static DatabaseWorkspace getInstance() {
+        return instance;
+    }
+
+    public TextArea getQueryArea() {
+        return queryArea;
+    }
+
     public DatabaseWorkspace(Stage primaryStage) {
+        instance = this;
         this.primaryStage = primaryStage;
 
         this.setSpacing(10);

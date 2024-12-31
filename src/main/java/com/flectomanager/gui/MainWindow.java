@@ -8,10 +8,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -163,19 +160,19 @@ public class MainWindow extends Application {
                 columnsBox.setManaged(false);
 
                 for (String column : columns) {
-                    HBox columnBox = createMenuItem(column, LEVEL_COLUMN, () -> handleColumnClick(column), columnsBox);
+                    HBox columnBox = createMenuItem(column, LEVEL_COLUMN, () -> insertTextIntoQueryArea(column), columnsBox);
                     columnsBox.getChildren().add(columnBox);
                 }
 
                 VBox tableBox = new VBox();
-                HBox tableHeader = createMenuItem(table, LEVEL_TABLE, () -> handleTableClick(table), columnsBox);
+                HBox tableHeader = createMenuItem(table, LEVEL_TABLE, () -> insertTextIntoQueryArea(table), columnsBox);
 
                 tableBox.getChildren().add(tableHeader);
                 tableBox.getChildren().add(columnsBox);
                 tablesBox.getChildren().add(tableBox);
             }
 
-            HBox databaseHeader = createMenuItem(dbName, LEVEL_DATABASE, () -> handleDatabaseClick(dbName), tablesBox);
+            HBox databaseHeader = createMenuItem(dbName, LEVEL_DATABASE, () -> insertTextIntoQueryArea(dbName), tablesBox);
 
             databaseBox.getChildren().add(databaseHeader);
             databaseBox.getChildren().add(tablesBox);
@@ -254,16 +251,12 @@ public class MainWindow extends Application {
         arrow.setRotate(arrow.getRotate() == 270 ? 0 : 270);
     }
 
-    private void handleDatabaseClick(String dbName) {
-        log.info("Database clicked: {}", dbName);
-    }
-
-    private void handleTableClick(String tableName) {
-        log.info("Table clicked: {}", tableName);
-    }
-
-    private void handleColumnClick(String columnName) {
-        log.info("Column clicked: {}", columnName);
+    private void insertTextIntoQueryArea(String text) {
+        TextArea queryArea = DatabaseWorkspace.getInstance().getQueryArea();
+        if (queryArea != null) {
+            int caretPosition = queryArea.getCaretPosition();
+            queryArea.insertText(caretPosition, text);
+        }
     }
 
     @Override
