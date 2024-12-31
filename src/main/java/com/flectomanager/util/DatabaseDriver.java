@@ -77,20 +77,25 @@ public class DatabaseDriver {
         try {
             if (dataSource instanceof HikariDataSource) {
                 HikariDataSource hikariDataSource = (HikariDataSource) dataSource;
-                boolean connectionStatus = !hikariDataSource.isClosed();
-                if (connectionStatus) {
-                    if (logs) log.info("Connection to the database is successful");
-                } else {
-                    if (logs) log.warn("Failed to connect to the database");
+
+                try (Connection connection = hikariDataSource.getConnection()) {
+                    boolean connectionStatus = connection != null && !connection.isClosed();
+                    if (connectionStatus) {
+                        if (logs) log.info("Connection to the database is successful");
+                    } else {
+                        if (logs) log.warn("Failed to connect to the database");
+                    }
+                    return connectionStatus;
+                } catch (SQLException e) {
+                    if (logs) log.warn("Failed to establish a connection to the database: {}", e.getMessage());
+                    return false;
                 }
-                return connectionStatus;
             } else {
-                if (logs) log.warn("DataSource is not an instance of HikariDataSource, cannot be closed explicitly");
+                if (logs) log.warn("DataSource is not an instance of HikariDataSource, cannot verify connection explicitly");
             }
         } catch (Exception e) {
-            if (logs) logError("An unexpected error occurred while connecting to the database", e);
+            if (logs) logError("An unexpected error occurred while checking the database connection", e);
         }
-
         return false;
     }
 
