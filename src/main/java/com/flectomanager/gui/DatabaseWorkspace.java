@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +29,7 @@ public class DatabaseWorkspace extends VBox {
     private final HBox buttonArea;
     private final Button executeButton;
     private final Button clearButton;
+    private final Button openButton;
     private final Button saveButton;
 
     private static DatabaseWorkspace instance;
@@ -48,12 +51,13 @@ public class DatabaseWorkspace extends VBox {
         this.setPadding(new Insets(10));
         HBox.setHgrow(this, Priority.ALWAYS);
 
-        executeButton = new Button("Выполнить запрос", new ImageView(Utils.loadFromSVG("textures/icon_query.svg")));
-        clearButton = new Button("Очистить", new ImageView(Utils.loadFromSVG("textures/icon_clear.svg")));
-        saveButton = new Button("Сохранить запрос", new ImageView(Utils.loadFromSVG("textures/icon_save.svg")));
-        applyButtonStyle(executeButton, clearButton, saveButton);
+        executeButton = new Button("", new ImageView(Utils.loadFromSVG("textures/icon_query.svg")));
+        clearButton = new Button("", new ImageView(Utils.loadFromSVG("textures/icon_clear.svg")));
+        openButton = new Button("", new ImageView(Utils.loadFromSVG("textures/icon_open.svg")));
+        saveButton = new Button("", new ImageView(Utils.loadFromSVG("textures/icon_save.svg")));
+        applyButtonStyle(executeButton, clearButton, openButton, saveButton);
 
-        buttonArea = new HBox(10, executeButton, clearButton, saveButton);
+        buttonArea = new HBox(10, executeButton, clearButton, openButton, saveButton);
         buttonArea.getStyleClass().add("button-area");
         buttonArea.setPadding(new Insets(5));
 
@@ -73,6 +77,7 @@ public class DatabaseWorkspace extends VBox {
 
         executeButton.setOnAction(e -> executeQuery());
         clearButton.setOnAction(e -> queryArea.clear());
+        openButton.setOnAction(e -> openQuery());
         saveButton.setOnAction(e -> saveQuery());
     }
 
@@ -130,6 +135,28 @@ public class DatabaseWorkspace extends VBox {
     private void clearResultTable() {
         resultTable.getColumns().clear();
         resultTable.getItems().clear();
+    }
+
+    private void openQuery() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Открытие SQL-запроса");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQL Files", "*.sql"));
+
+        File file = fileChooser.showOpenDialog(primaryStage);
+
+        if (file != null) {
+            try {
+                String query = Files.readString(file.toPath(), StandardCharsets.UTF_8);
+
+                queryArea.setText(query);
+                log.info("Запрос из файла {} успешно загружен", file.getAbsolutePath());
+            } catch (IOException e) {
+                showAlert("Ошибка", "Не удалось открыть файл:\n" + e.getMessage(), CustomAlertWindow.AlertType.ERROR);
+                log.error("Ошибка при открытии файла {}: {}", file.getAbsolutePath(), e.getMessage());
+            }
+        } else {
+            log.info("Открытие запроса отменено пользователем");
+        }
     }
 
     private void saveQuery() {

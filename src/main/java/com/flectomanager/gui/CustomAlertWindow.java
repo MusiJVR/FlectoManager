@@ -43,7 +43,7 @@ public class CustomAlertWindow extends Window {
 
         root.getChildren().addAll(messageLabel, closeButton);
 
-        Scene scene = new Scene(root, 300, 150);
+        Scene scene = new Scene(root, 350, 200);
         currentStage.setScene(scene);
 
         setIcon();
