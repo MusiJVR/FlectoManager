@@ -1,0 +1,13 @@
+.main-alert {
+    -fx-padding: 20px;
+    -fx-alignment: center;
+}
+
+.alert-label {
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+.alert-button {
+    -fx-padding: 5px 10px;
+}

@@ -46,19 +46,19 @@ public class DatabaseWorkspace extends VBox {
         this.primaryStage = primaryStage;
 
         this.setSpacing(10);
-        this.getStyleClass().add("workspace-container");
+        this.getStyleClass().add("theme-background-color");
         this.setPadding(new Insets(10));
         HBox.setHgrow(this, Priority.ALWAYS);
 
         queryArea = new TextArea();
-        queryArea.getStyleClass().add("query-area");
+        queryArea.getStyleClass().add("theme-query-area");
         queryArea.setPromptText("Введите ваш SQL-запрос здесь...");
         queryArea.setWrapText(true);
 
-        executeButton = Utils.createCustomMenuButton("workspace-button", "textures/icon_query.svg", e -> executeQuery(), null, "Выполнить запрос");
-        clearButton = Utils.createCustomMenuButton("workspace-button", "textures/icon_clear.svg", e -> queryArea.clear(), null, "Очистить запрос");
-        openButton = Utils.createCustomMenuButton("workspace-button", "textures/icon_open.svg", e -> openQuery(), null, "Открыть запрос");
-        saveButton = Utils.createCustomMenuButton("workspace-button", "textures/icon_save.svg", e -> saveQuery(), null, "Сохранить запрос");
+        executeButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_query.svg", e -> executeQuery(), null, "Выполнить запрос", "theme-tooltip-background-color");
+        clearButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_clear.svg", e -> queryArea.clear(), null, "Очистить запрос", "theme-tooltip-background-color");
+        openButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_open.svg", e -> openQuery(), null, "Открыть запрос", "theme-tooltip-background-color");
+        saveButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_save.svg", e -> saveQuery(), null, "Сохранить запрос", "theme-tooltip-background-color");
 
         applyButtonStyle(executeButton, clearButton, openButton, saveButton);
 
@@ -70,6 +70,7 @@ public class DatabaseWorkspace extends VBox {
 
         resultTable = new TableView<>();
         resultTable.getStyleClass().add("result-table");
+        resultTable.getStyleClass().add("theme-result-table");
         resultTable.setPlaceholder(new Label("Нет данных для отображения"));
         resultTable.setVisible(false);
 

@@ -1,0 +1,83 @@
+.theme-background-color {
+    -fx-background-color: #1e1f22;
+}
+
+.theme-settings-background-color {
+    -fx-background-color: #2d2d30;
+}
+
+.theme-background {
+    -fx-background: #1e1f22;
+}
+
+.theme-text-color {
+    -fx-text-fill: #b0b0b0;
+}
+
+.theme-separator {
+    -fx-background-color: #313438;
+}
+
+.theme-menu-item .label {
+    -fx-text-fill: #b0b0b0;
+}
+
+.theme-menu-item:hover {
+    -fx-background-color: #313438;
+}
+
+.theme-button-background-color {
+    -fx-background-color: #2d2d30;
+    -fx-text-fill: #b0b0b0;
+}
+
+.theme-button-background-color:hover {
+    -fx-background-color: #2e436e;
+}
+
+.theme-mini-button-background-color {
+    -fx-background-color: transparent;
+}
+
+.theme-mini-button-background-color:hover {
+    -fx-background-color: #2e436e;
+}
+
+.theme-settings-button-background-color {
+    -fx-background-color: #3a3a3a;
+    -fx-text-fill: #b0b0b0;
+}
+
+.theme-settings-button-background-color:hover {
+    -fx-background-color: #2a3c63;
+}
+
+.theme-tooltip-background-color {
+    -fx-background-color: #333333;
+    -fx-text-fill: #b0b0b0;
+}
+
+.theme-query-area {
+    -fx-control-inner-background: #2d2d30;
+    -fx-text-fill: #b0b0b0;
+    -fx-prompt-text-fill: #a6a6a6;
+}
+
+.theme-result-table {
+    -fx-background-color: #2d2d30;
+    -fx-border-color: #313438;
+    -fx-text-fill: #b0b0b0;
+}
+
+.theme-result-table .column-header {
+    -fx-background-color: #313438;
+}
+
+.theme-result-table .label {
+    -fx-text-fill: #b0b0b0;
+}
+
+.theme-result-table .cell {
+    -fx-background-color: #2d2d30;
+    -fx-text-fill: #b0b0b0;
+}

@@ -98,7 +98,7 @@ public class ConfigManager {
     }
 
     public static void updateConfig() {
-        if (!checkConfig()) updateConfig(new ArrayList<Object>(Arrays.asList("", "", "", "en", "dark")));
+        if (!checkConfig()) updateConfig(new ArrayList<>(Arrays.asList("", "", "", "en", "dark")));
     }
 
     public static Map<String, Object> updateTableColumnsConfig(Map.Entry<String, List<String>> table) {

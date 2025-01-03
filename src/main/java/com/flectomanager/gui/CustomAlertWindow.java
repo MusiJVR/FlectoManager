@@ -31,22 +31,36 @@ public class CustomAlertWindow extends Window {
         currentStage.initOwner(primaryStage);
         currentStage.setTitle(title);
 
-        VBox root = new VBox(10);
-        root.setStyle("-fx-padding: 20; -fx-background-color: #1e1f22; -fx-alignment: center;");
+        VBox vbox = new VBox(10);
+        vbox.getStyleClass().add("main-alert");
+        vbox.getStyleClass().add("theme-background-color");
 
         Label messageLabel = new Label(message);
-        messageLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-wrap-text: true;");
+        messageLabel.getStyleClass().add("alert-label");
+        messageLabel.getStyleClass().add("theme-text-color");
 
         Button closeButton = new Button("OK");
-        closeButton.setStyle("-fx-background-color: #2d2d30; -fx-text-fill: white; -fx-padding: 5 10;");
-        closeButton.setOnAction(e -> currentStage.close());
+        closeButton.getStyleClass().add("alert-button");
+        closeButton.getStyleClass().add("theme-button-background-color");
+        closeButton.setOnAction(e -> { currentStage.close(); currentStage = null; scene = null; });
 
-        root.getChildren().addAll(messageLabel, closeButton);
+        vbox.getChildren().addAll(messageLabel, closeButton);
 
-        Scene scene = new Scene(root, 350, 200);
+        scene = new Scene(vbox, 350, 200);
+        scene.getStylesheets().add("css/customAlertWindow.css");
+
+        setStylesheets();
+
         currentStage.setScene(scene);
 
         setIcon();
+    }
+
+    @Override
+    public void setStylesheets() {
+        super.setStylesheets();
+        if (scene == null) return;
+        scene.getStylesheets().add("css/customAlertWindow.css");
     }
 
     private void setIcon() {

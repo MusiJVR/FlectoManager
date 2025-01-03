@@ -54,13 +54,17 @@ public class Utils {
         return null;
     }
 
-    public static Button createCustomMenuButton(String className, String iconPath, EventHandler<ActionEvent> event, String buttonText, String tooltipText) {
+    public static Button createCustomMenuButton(String[] classNames, String iconPath, EventHandler<ActionEvent> event, String buttonText, String tooltipText, String tooltipClassName) {
         Button button = new Button();
-        ImageView buttonIcon = new ImageView(loadFromSVG(iconPath));
-        button.setGraphic(buttonIcon);
-        button.getStyleClass().add(className);
+        if (iconPath != null) {
+            ImageView buttonIcon = new ImageView(loadFromSVG(iconPath));
+            button.setGraphic(buttonIcon);
+        }
+        for (String className : classNames) {
+            button.getStyleClass().add(className);
+        }
         if (buttonText != null && !buttonText.isEmpty()) button.setText(buttonText);
-        if (tooltipText != null && !tooltipText.isEmpty()) button.setTooltip(new Tooltip(tooltipText) {{ setShowDelay(Duration.seconds(0.3)); }});
+        if (tooltipText != null && !tooltipText.isEmpty()) button.setTooltip(new Tooltip(tooltipText) {{ getStyleClass().add(tooltipClassName); setShowDelay(Duration.seconds(0.3)); }});
         button.setOnAction(event);
         return button;
     }

@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class SettingsWindow extends Window {
     private static final Logger log = LoggerFactory.getLogger(SettingsWindow.class);
@@ -43,6 +42,7 @@ public class SettingsWindow extends Window {
 
         VBox vbox = new VBox(10);
         vbox.getStyleClass().add("main-vbox");
+        vbox.getStyleClass().add("theme-background-color");
         
         HBox languageBox = createSettingBox("Язык", new ComboBox<>(FXCollections.observableArrayList(languageMap.keySet())));
         ComboBox<String> languageComboBox = (ComboBox<String>) languageBox.getChildren().get(1);
@@ -67,20 +67,33 @@ public class SettingsWindow extends Window {
         ScrollPane scrollPane = new ScrollPane(vbox);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
-        Scene scene = new Scene(scrollPane, 500, 400);
+        scene = new Scene(scrollPane, 500, 400);
         scene.getRoot().getStyleClass().add("settings-root");
-        scene.getStylesheets().add("css/settingsWindow.css");
+        scene.getRoot().getStyleClass().add("theme-background-color");
+
+        setStylesheets();
+
         currentStage.setScene(scene);
         currentStage.initOwner(primaryStage);
         currentStage.setResizable(false);
         currentStage.setFullScreen(false);
     }
 
+    @Override
+    public void setStylesheets() {
+        super.setStylesheets();
+        if (scene == null) return;
+        scene.getStylesheets().add("css/settingsWindow.css");
+    }
+
     private HBox createSettingBox(String label, Control control) {
         Label settingLabel = new Label(label);
         settingLabel.getStyleClass().add("setting-label");
+        settingLabel.getStyleClass().add("theme-text-color");
+        if (control instanceof Button) control.getStyleClass().add("theme-settings-button-background-color");
         HBox box = new HBox(10, settingLabel, control);
         box.getStyleClass().add("setting-box");
+        box.getStyleClass().add("theme-settings-background-color");
         return box;
     }
 
@@ -101,12 +114,13 @@ public class SettingsWindow extends Window {
 
     private void updateLanguage(String confPath, String language) {
         ConfigManager.updateConfigValue(confPath, language);
-        log.info("Language updated to {}", language);
+        log.info("Language updated to '{}'", language);
     }
 
     private void updateTheme(String confPath, String theme) {
         ConfigManager.updateConfigValue(confPath, theme.toLowerCase());
-        log.info("Theme updated to {}", theme);
+        MainWindow.setStylesheets();
+        log.info("Theme updated to '{}'", theme);
     }
 
     private void configureHotkeys() {

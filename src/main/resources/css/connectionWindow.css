@@ -1,0 +1,19 @@
+.connection-root {
+    -fx-font-family: "Consolas";
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+}
+
+.connection-window {
+    -fx-padding: 15px;
+    -fx-border-radius: 8px;
+}
+
+.connection-window-label {
+    -fx-font-weight: bold;
+}
+
+.connection-window-text-field {
+    -fx-border-radius: 4px;
+    -fx-padding: 5px;
+}

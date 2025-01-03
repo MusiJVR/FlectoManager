@@ -1,5 +1,4 @@
 .custom-scroll-pane {
-    -fx-background: #1e1f22;
     -fx-background-color: transparent;
 }
 
@@ -25,10 +24,6 @@
     -fx-cursor: hand;
 }
 
-.menu-item .label {
-    -fx-text-fill: white;
-}
-
 .menu-item.level-0 {
     -fx-padding: 0 0 0 0;
 }
@@ -41,16 +36,11 @@
     -fx-padding: 0 0 0 40px;
 }
 
-.menu-item:hover {
-    -fx-background-color: #313438;
-}
-
 .button-container {
     -fx-spacing: 5px;
 }
 
 .menu-button {
-    -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-padding: 0;
     -fx-pref-width: 20px;

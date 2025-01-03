@@ -1,5 +1,6 @@
 package com.flectomanager.gui;
 
+import com.flectomanager.util.ConfigManager;
 import com.flectomanager.util.DatabaseDriver;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
@@ -33,8 +34,9 @@ public class MainWindow extends Application {
     private static MainWindow instance;
     private static ConnectionWindow connectionWindow;
     private static SettingsWindow settingsWindow;
-    private VBox databaseInfoBox;
-    private HBox workspace;
+    private static VBox databaseInfoBox;
+    private static HBox workspace;
+    private static Scene scene;
     private static final int LEVEL_DATABASE = 0;
     private static final int LEVEL_TABLE = 1;
     private static final int LEVEL_COLUMN = 2;
@@ -63,6 +65,7 @@ public class MainWindow extends Application {
 
         Separator separator = new Separator();
         separator.getStyleClass().add("separator");
+        separator.getStyleClass().add("theme-separator");
         separator.setOrientation(Orientation.VERTICAL);
         VBox.setVgrow(separator, Priority.ALWAYS);
 
@@ -70,6 +73,7 @@ public class MainWindow extends Application {
 
         ScrollPane scrollPane = new ScrollPane(databaseInfoBox);
         scrollPane.getStyleClass().add("custom-scroll-pane");
+        scrollPane.getStyleClass().add("theme-background");
         scrollPane.setFitToWidth(true);
 
         workspace = new HBox(20);
@@ -81,12 +85,13 @@ public class MainWindow extends Application {
         HBox mainLayout = new HBox(10);
         mainLayout.getChildren().addAll(scrollPane, separator, workspace);
 
-        Scene scene = new Scene(mainLayout, 1200, 800);
+        scene = new Scene(mainLayout, 1200, 800);
         //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         scene.getRoot().getStyleClass().add("main-root");
-        scene.getStylesheets().add("css/base.css");
-        scene.getStylesheets().add("css/databaseInfoMenu.css");
-        scene.getStylesheets().add("css/databaseWorkspace.css");
+        scene.getRoot().getStyleClass().add("theme-background-color");
+
+        setStylesheets();
+
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case F1:
@@ -115,6 +120,7 @@ public class MainWindow extends Application {
 
     public Button createConnectionButton() {
         Button connectDBButton = new Button("Подключиться к БД", new ImageView(Utils.loadFromSVG("textures/icon_connect.svg")));
+        connectDBButton.getStyleClass().add("theme-button-background-color");
         connectDBButton.setOnAction(e -> connectionWindow.show());
         return connectDBButton;
     }
@@ -180,15 +186,15 @@ public class MainWindow extends Application {
         }
 
         HBox reloadBox = new HBox(
-                Utils.createCustomMenuButton("menu-button", "textures/icon_logout.svg", e -> {
+                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_logout.svg", e -> {
                     databaseDriver.close();
                     updateDatabaseInfoBox();
                     clearWorkspace();
                     addToWorkspace(createConnectionButton());
-                }, null, "Отключить от БД"),
-                Utils.createCustomMenuButton("menu-button", "textures/icon_connect.svg", e -> connectionWindow.show(), null, "Подклбчиться к БД"),
-                Utils.createCustomMenuButton("menu-button", "textures/icon_reload.svg", e -> updateDatabaseInfoBox(), null, "Перезагрузить структуру БД"),
-                Utils.createCustomMenuButton("menu-button", "textures/icon_settings.svg", e -> settingsWindow.show(), null, "Открыть настройки")
+                }, null, "Отключить от БД", "theme-tooltip-background-color"),
+                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_connect.svg", e -> connectionWindow.show(), null, "Подклбчиться к БД", "theme-tooltip-background-color"),
+                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_reload.svg", e -> updateDatabaseInfoBox(), null, "Перезагрузить структуру БД", "theme-tooltip-background-color"),
+                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_settings.svg", e -> settingsWindow.show(), null, "Открыть настройки", "theme-tooltip-background-color")
         );
         reloadBox.getStyleClass().add("button-container");
 
@@ -201,6 +207,7 @@ public class MainWindow extends Application {
     private HBox createMenuItem(String text, int level, Runnable onClick, Node toggleNode) {
         HBox itemBox = new HBox(5);
         itemBox.getStyleClass().add("menu-item");
+        itemBox.getStyleClass().add("theme-menu-item");
         itemBox.getStyleClass().add("level-" + level);
 
         ImageView arrowIcon = new ImageView(Utils.loadFromSVG("textures/icon_arrow.svg"));
@@ -250,6 +257,25 @@ public class MainWindow extends Application {
             int caretPosition = queryArea.getCaretPosition();
             queryArea.insertText(caretPosition, text);
         }
+    }
+
+    public static void setStylesheets() {
+        if (scene == null) return;
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add("css/base.css");
+        scene.getStylesheets().add("css/databaseInfoMenu.css");
+        scene.getStylesheets().add("css/databaseWorkspace.css");
+        switch (ConfigManager.getConfigValue("app.theme", "dark")) {
+            case "dark":
+                scene.getStylesheets().add("css/darkTheme.css");
+                break;
+            case "light":
+                scene.getStylesheets().add("css/lightTheme.css");
+                break;
+        }
+
+        connectionWindow.setStylesheets();
+        settingsWindow.setStylesheets();
     }
 
     @Override
