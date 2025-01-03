@@ -21,7 +21,7 @@ public class DatabaseDriver {
 
     @PostConstruct
     public void init() {
-        Map<String, Object> configDataMap = Utils.readConfig();
+        Map<String, Object> configDataMap = ConfigManager.readConfig();
 
         if (configDataMap != null) {
             Map<String, Object> dataSourceMap = (Map<String, Object>) configDataMap.get("datasource");

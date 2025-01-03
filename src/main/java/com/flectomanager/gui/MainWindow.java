@@ -32,6 +32,7 @@ public class MainWindow extends Application {
 
     private static MainWindow instance;
     private static ConnectionWindow connectionWindow;
+    private static SettingsWindow settingsWindow;
     private VBox databaseInfoBox;
     private HBox workspace;
     private static final int LEVEL_DATABASE = 0;
@@ -58,6 +59,7 @@ public class MainWindow extends Application {
         stage.getIcons().add(new Image("textures/icon.png"));
 
         connectionWindow = new ConnectionWindow(databaseDriver, Main.mainStage);
+        settingsWindow = new SettingsWindow(Main.mainStage);
 
         Separator separator = new Separator();
         separator.getStyleClass().add("separator");
@@ -185,7 +187,8 @@ public class MainWindow extends Application {
                     addToWorkspace(createConnectionButton());
                 }, null, "Отключить от БД"),
                 Utils.createCustomMenuButton("menu-button", "textures/icon_connect.svg", e -> connectionWindow.show(), null, "Подклбчиться к БД"),
-                Utils.createCustomMenuButton("menu-button", "textures/icon_reload.svg", e -> updateDatabaseInfoBox(), null, "Перезагрузить структуру БД")
+                Utils.createCustomMenuButton("menu-button", "textures/icon_reload.svg", e -> updateDatabaseInfoBox(), null, "Перезагрузить структуру БД"),
+                Utils.createCustomMenuButton("menu-button", "textures/icon_settings.svg", e -> settingsWindow.show(), null, "Открыть настройки")
         );
         reloadBox.getStyleClass().add("button-container");
 

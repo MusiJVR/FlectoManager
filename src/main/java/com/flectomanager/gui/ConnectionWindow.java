@@ -1,6 +1,6 @@
 package com.flectomanager.gui;
 
-import com.flectomanager.util.Utils;
+import com.flectomanager.util.ConfigManager;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -64,7 +64,9 @@ public class ConnectionWindow extends Window {
 
     public void connectToDatabase(String url, String username, String password) {
         log.info("Connection attempt...");
-        Utils.updateConfig(url, username, password);
+        ConfigManager.updateConfigValue("datasource.url", url);
+        ConfigManager.updateConfigValue("datasource.user", username);
+        ConfigManager.updateConfigValue("datasource.password", password);
         databaseDriver.connect(url, username, password);
         if (databaseDriver.checkDatabaseConnection(true)) mainWindow.createNewWorkspace();
         currentStage.close();
