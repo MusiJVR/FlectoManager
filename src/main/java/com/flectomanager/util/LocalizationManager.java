@@ -60,6 +60,10 @@ public class LocalizationManager {
         loadTranslations();
     }
 
+    public static void setDefaultLanguage() {
+        setLanguage(DEFAULT_LANGUAGE);
+    }
+
     public static String get(String key) {
         return translations.getOrDefault(key, key);
     }

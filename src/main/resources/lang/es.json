@@ -13,6 +13,7 @@
   "reset_settings": "Restablecer configuración",
   "reset": "Restablecer",
   "warn_update_language": "Para aplicar los cambios, es necesario reiniciar el programa.",
+  "warn_reset_settings": "Para aplicar el restablecimiento de la configuración, es necesario reiniciar el programa.",
   "execute_query": "Ejecutar consulta",
   "clear_query": "Limpiar consulta",
   "open_query": "Abrir consulta",

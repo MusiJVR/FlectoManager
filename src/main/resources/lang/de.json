@@ -13,6 +13,7 @@
   "reset_settings": "Einstellungen zurücksetzen",
   "reset": "Zurücksetzen",
   "warn_update_language": "Um Änderungen anzuwenden, muss das Programm neu gestartet werden.",
+  "warn_reset_settings": "Um die Rücksetzung der Einstellungen anzuwenden, muss das Programm neu gestartet werden.",
   "execute_query": "Abfrage ausführen",
   "clear_query": "Abfrage löschen",
   "open_query": "Abfrage öffnen",

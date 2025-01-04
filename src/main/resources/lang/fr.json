@@ -13,6 +13,7 @@
   "reset_settings": "Réinitialiser les paramètres",
   "reset": "Réinitialiser",
   "warn_update_language": "Pour appliquer les modifications, le programme doit être redémarré.",
+  "warn_reset_settings": "Pour appliquer la réinitialisation des paramètres, le programme doit être redémarré.",
   "execute_query": "Exécuter la requête",
   "clear_query": "Effacer la requête",
   "open_query": "Ouvrir la requête",

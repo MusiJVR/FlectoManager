@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -121,11 +123,7 @@ public class SettingsWindow extends Window {
             stage.close();
             LocalizationManager.setLanguage(language);
             log.info("Language updated to '{}'", language);
-            try {
-                Main.run();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            Main.run();
         });
         alertWindow.show();
     }
@@ -142,7 +140,14 @@ public class SettingsWindow extends Window {
     }
 
     private void resetSettings() {
-        log.info("The settings have been reset");
-        // TODO
+        CustomAlertWindow alertWindow = new CustomAlertWindow(primaryStage, LocalizationManager.get("alert_type_info"), LocalizationManager.get("warn_reset_settings"), CustomAlertWindow.AlertType.INFO,
+                stage -> {
+            ConfigManager.updateConfig(new ArrayList<>(Arrays.asList("", "", "", "en", "dark")));
+            stage.close();
+            LocalizationManager.setDefaultLanguage();
+            log.info("The settings have been reset");
+            Main.run();
+        });
+        alertWindow.show();
     }
 }

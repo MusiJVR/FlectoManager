@@ -13,6 +13,7 @@
   "reset_settings": "Reset settings",
   "reset": "Reset",
   "warn_update_language": "To apply changes, the program needs to be restarted.",
+  "warn_reset_settings": "To apply the reset of settings, the program needs to be restarted.",
   "execute_query": "Execute query",
   "clear_query": "Clear query",
   "open_query": "Open query",
