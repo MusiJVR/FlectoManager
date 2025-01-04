@@ -1,5 +1,6 @@
 package com.flectomanager;
 
+import com.flectomanager.util.Utils;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import com.flectomanager.gui.MainWindow;
@@ -20,6 +21,7 @@ public class Main {
     public static Stage mainStage;
 
     public static void main(String[] args) {
+        Utils.getLogsDir();
         ApplicationContext context = SpringApplication.run(Main.class, args);
         launchJavaFXApplication(context);
     }

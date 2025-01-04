@@ -38,6 +38,14 @@ public class Utils {
         } else return "";
     }
 
+    public static String getLogsDir() {
+        File logsDir = new File(getJarContainingFolder(), "logs");
+        if (!logsDir.exists() && !logsDir.mkdirs()) {
+            throw new RuntimeException("Could not create logs directory: " + logsDir.getAbsolutePath());
+        }
+        return logsDir.getAbsolutePath().replace("\\", "/");
+    }
+
     public static Image loadFromSVG(String path) {
         try (InputStream svgStream = Utils.class.getClassLoader().getResourceAsStream(path)) {
             if (svgStream == null) throw new FileNotFoundException("SVG file not found: " + path);

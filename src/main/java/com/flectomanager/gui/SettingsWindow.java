@@ -34,6 +34,7 @@ public class SettingsWindow extends Window {
 
         themeMap.put(LocalizationManager.get("dark_theme"), "dark");
         themeMap.put(LocalizationManager.get("light_theme"), "light");
+        // TODO
     }
 
     public SettingsWindow(Stage primaryStage) {

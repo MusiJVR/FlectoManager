@@ -1,0 +1,29 @@
+<configuration>
+    <property name="CONSOLE_LOGGING" value="true" />
+
+    <property name="LOG_DIR" value="${com.flectomanager.util.Utils.getLogsDir()}" />
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/latest.log</file>
+        <rollingPolicy class="com.flectomanager.rolling.DateIndexedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/log-%d{yyyy-MM-dd}-%i.log.zip</fileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>1KB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="CONSOLE" condition="${CONSOLE_LOGGING == 'true'}" />
+    </root>
+</configuration>
