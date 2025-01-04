@@ -33,6 +33,7 @@ public class Main {
 
     public static void run() {
         try {
+            mainWindow.saveCurrentQuery();
             if (mainStage != null) {
                 mainStage.close();
             }

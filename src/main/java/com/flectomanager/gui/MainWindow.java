@@ -35,6 +35,7 @@ public class MainWindow extends Application {
     private static MainWindow instance;
     private static ConnectionWindow connectionWindow;
     private static SettingsWindow settingsWindow;
+    private static DatabaseWorkspace workspaceChildNodes;
     private static VBox databaseInfoBox;
     private static HBox workspace;
     private static Scene scene;
@@ -129,8 +130,8 @@ public class MainWindow extends Application {
     public void createNewWorkspace() {
         clearWorkspace();
         if (Main.mainStage != null) {
-            DatabaseWorkspace workspace = new DatabaseWorkspace(Main.mainStage);
-            addToWorkspace(workspace);
+            workspaceChildNodes = new DatabaseWorkspace(Main.mainStage);
+            addToWorkspace(workspaceChildNodes);
         }
     }
 
@@ -187,7 +188,8 @@ public class MainWindow extends Application {
         }
 
         HBox reloadBox = new HBox(
-                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_logout.svg", e -> {
+                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_disconnect.svg", e -> {
+                    saveCurrentQuery();
                     databaseDriver.close();
                     updateDatabaseInfoBox();
                     clearWorkspace();
@@ -260,6 +262,10 @@ public class MainWindow extends Application {
         }
     }
 
+    public void saveCurrentQuery() {
+        if (workspaceChildNodes != null) workspaceChildNodes.saveCachedQuery();
+    }
+
     public static void setStylesheets() {
         if (scene == null) return;
         scene.getStylesheets().clear();
@@ -281,6 +287,7 @@ public class MainWindow extends Application {
 
     @Override
     public void stop() throws Exception {
+        saveCurrentQuery();
         log.info("Stopping {} {}!", Main.PROJECT_NAME, Main.PROJECT_VERSION);
         System.exit(0);
     }

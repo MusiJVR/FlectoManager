@@ -55,6 +55,7 @@ public class DatabaseWorkspace extends VBox {
         queryArea.getStyleClass().add("theme-query-area");
         queryArea.setPromptText(LocalizationManager.get("prompt_query"));
         queryArea.setWrapText(true);
+        openCachedQuery();
 
         executeButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_query.svg", e -> executeQuery(), null, LocalizationManager.get("execute_query"), "theme-tooltip-background-color");
         clearButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_clear.svg", e -> queryArea.clear(), null, LocalizationManager.get("clear_query"), "theme-tooltip-background-color");
@@ -181,6 +182,42 @@ public class DatabaseWorkspace extends VBox {
             log.info("Request saving cancelled by user");
         }
     }
+
+    public void openCachedQuery() {
+        String filePath = Utils.getJarContainingFolder() + "/cache/cached_query.sql";
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try {
+                String query = Files.readString(file.toPath(), StandardCharsets.UTF_8);
+                queryArea.setText(query);
+                log.info("Request from file {} successfully loaded", file.getAbsolutePath());
+            } catch (IOException e) {
+                log.error("Error opening file {}: {}", file.getAbsolutePath(), e.getMessage());
+            }
+        } else {
+            log.info("File does not exist: {}", file.getAbsolutePath());
+        }
+    }
+
+    public void saveCachedQuery() {
+        String query = queryArea.getText();
+
+        File configDir = new File(Utils.getJarContainingFolder(), "cache");
+        if (!configDir.exists()) configDir.mkdir();
+
+        File file = new File(configDir, "cached_query.sql");
+
+        try (FileWriter fileWriter = new FileWriter(file)) {
+            System.out.println(query);
+            System.out.println(file.getAbsolutePath());
+            fileWriter.write(query);
+            log.info("The last query was saved successfully {}", file.getAbsolutePath());
+        } catch (IOException e) {
+            log.warn("Failed to save last query");
+        }
+    }
+
 
     private void showAlert(String title, String message, CustomAlertWindow.AlertType alertType) {
         CustomAlertWindow alertWindow = new CustomAlertWindow(primaryStage, title, message, alertType, stage -> stage.close());
