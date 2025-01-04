@@ -1,6 +1,7 @@
 package com.flectomanager.gui;
 
 import com.flectomanager.util.ConfigManager;
+import com.flectomanager.util.LocalizationManager;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,15 +27,15 @@ public class ConnectionWindow extends Window {
     @Override
     public void createWindow() {
         currentStage = new Stage();
-        currentStage.setTitle("Подключение к БД");
+        currentStage.setTitle(LocalizationManager.get("connecting_to_database"));
         currentStage.getIcons().addAll(primaryStage.getIcons());
 
         TextField dbUrlField = new TextField();
         TextField usernameField = new TextField();
         TextField passwordField = new TextField();
-        dbUrlField.setPromptText("Введите адрес");
-        usernameField.setPromptText("Введите имя пользователя");
-        passwordField.setPromptText("Введите пароль");
+        dbUrlField.setPromptText(LocalizationManager.get("enter_address"));
+        usernameField.setPromptText(LocalizationManager.get("enter_username"));
+        passwordField.setPromptText(LocalizationManager.get("enter_password"));
         dbUrlField.getStyleClass().add("connection-window-text-field");
         usernameField.getStyleClass().add("connection-window-text-field");
         passwordField.getStyleClass().add("connection-window-text-field");
@@ -43,16 +44,16 @@ public class ConnectionWindow extends Window {
         vbox.getStyleClass().add("connection-window");
         vbox.getStyleClass().add("theme-background-color");
         vbox.getChildren().addAll(
-                new Label("Адрес БД:") {{ getStyleClass().add("connection-window-label"); getStyleClass().add("theme-text-color"); }}, dbUrlField,
-                new Label("Пользователь:") {{ getStyleClass().add("connection-window-label"); getStyleClass().add("theme-text-color"); }}, usernameField,
-                new Label("Пароль:") {{ getStyleClass().add("connection-window-label"); getStyleClass().add("theme-text-color"); }}, passwordField
+                new Label(LocalizationManager.get("database_address")) {{ getStyleClass().add("connection-window-label"); getStyleClass().add("theme-text-color"); }}, dbUrlField,
+                new Label(LocalizationManager.get("username")) {{ getStyleClass().add("connection-window-label"); getStyleClass().add("theme-text-color"); }}, usernameField,
+                new Label(LocalizationManager.get("password")) {{ getStyleClass().add("connection-window-label"); getStyleClass().add("theme-text-color"); }}, passwordField
         );
 
-        Button connectButton = new Button("Подключиться");
+        Button connectButton = new Button(LocalizationManager.get("connect"));
         connectButton.getStyleClass().add("theme-button-background-color");
         connectButton.setOnAction(e -> connectToDatabase(dbUrlField.getText(), usernameField.getText(), passwordField.getText()));
 
-        Button cancelButton = new Button("Отмена");
+        Button cancelButton = new Button(LocalizationManager.get("cancel"));
         cancelButton.getStyleClass().add("theme-button-background-color");
         cancelButton.setOnAction(e -> currentStage.close());
 

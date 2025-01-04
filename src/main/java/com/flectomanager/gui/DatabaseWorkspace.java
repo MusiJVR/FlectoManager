@@ -1,5 +1,6 @@
 package com.flectomanager.gui;
 
+import com.flectomanager.util.LocalizationManager;
 import com.flectomanager.util.Utils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
@@ -52,13 +53,13 @@ public class DatabaseWorkspace extends VBox {
 
         queryArea = new TextArea();
         queryArea.getStyleClass().add("theme-query-area");
-        queryArea.setPromptText("Введите ваш SQL-запрос здесь...");
+        queryArea.setPromptText(LocalizationManager.get("prompt_query"));
         queryArea.setWrapText(true);
 
-        executeButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_query.svg", e -> executeQuery(), null, "Выполнить запрос", "theme-tooltip-background-color");
-        clearButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_clear.svg", e -> queryArea.clear(), null, "Очистить запрос", "theme-tooltip-background-color");
-        openButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_open.svg", e -> openQuery(), null, "Открыть запрос", "theme-tooltip-background-color");
-        saveButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_save.svg", e -> saveQuery(), null, "Сохранить запрос", "theme-tooltip-background-color");
+        executeButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_query.svg", e -> executeQuery(), null, LocalizationManager.get("execute_query"), "theme-tooltip-background-color");
+        clearButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_clear.svg", e -> queryArea.clear(), null, LocalizationManager.get("clear_query"), "theme-tooltip-background-color");
+        openButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_open.svg", e -> openQuery(), null, LocalizationManager.get("open_query"), "theme-tooltip-background-color");
+        saveButton = Utils.createCustomMenuButton(new String[] {"theme-button-background-color"}, "textures/icon_save.svg", e -> saveQuery(), null, LocalizationManager.get("save_query"), "theme-tooltip-background-color");
 
         applyButtonStyle(executeButton, clearButton, openButton, saveButton);
 
@@ -71,7 +72,7 @@ public class DatabaseWorkspace extends VBox {
         resultTable = new TableView<>();
         resultTable.getStyleClass().add("result-table");
         resultTable.getStyleClass().add("theme-result-table");
-        resultTable.setPlaceholder(new Label("Нет данных для отображения"));
+        resultTable.setPlaceholder(new Label(LocalizationManager.get("no_data_to_display")));
         resultTable.setVisible(false);
 
         this.getChildren().addAll(buttonArea, queryArea, separator, resultTable);
@@ -80,7 +81,7 @@ public class DatabaseWorkspace extends VBox {
     private void executeQuery() {
         String query = queryArea.getText();
         if (query.trim().isEmpty()) {
-            showAlert("Предупреждение", "Введите запрос перед выполнением.", CustomAlertWindow.AlertType.WARNING);
+            showAlert(LocalizationManager.get("alert_type_warning"), LocalizationManager.get("warn_query_is_empty"), CustomAlertWindow.AlertType.WARNING);
             log.warn("Query is empty <{}>", query);
             return;
         }
@@ -97,7 +98,7 @@ public class DatabaseWorkspace extends VBox {
 
             log.info("Query completed successfully <{}>", query);
         } catch (Exception e) {
-            showAlert("Ошибка выполнения", "Произошла ошибка при выполнении запроса: " + e.getMessage(), CustomAlertWindow.AlertType.ERROR);
+            showAlert(LocalizationManager.get("alert_type_error"), LocalizationManager.get("error_while_executing_request") + e.getMessage(), CustomAlertWindow.AlertType.ERROR);
             log.error("Query returns the error <{}>: {}", query, e.getMessage());
         }
     }
@@ -106,7 +107,7 @@ public class DatabaseWorkspace extends VBox {
         clearResultTable();
 
         if (results.isEmpty()) {
-            resultTable.setPlaceholder(new Label("Нет данных для отображения"));
+            resultTable.setPlaceholder(new Label(LocalizationManager.get("no_data_to_display")));
             return;
         }
 
@@ -135,7 +136,7 @@ public class DatabaseWorkspace extends VBox {
 
     private void openQuery() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Открытие SQL-запроса");
+        fileChooser.setTitle(LocalizationManager.get("explorer_title_open_query"));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQL Files", "*.sql"));
 
         File file = fileChooser.showOpenDialog(primaryStage);
@@ -143,27 +144,26 @@ public class DatabaseWorkspace extends VBox {
         if (file != null) {
             try {
                 String query = Files.readString(file.toPath(), StandardCharsets.UTF_8);
-
                 queryArea.setText(query);
-                log.info("Запрос из файла {} успешно загружен", file.getAbsolutePath());
+                log.info("Request from file {} successfully loaded", file.getAbsolutePath());
             } catch (IOException e) {
-                showAlert("Ошибка", "Не удалось открыть файл:\n" + e.getMessage(), CustomAlertWindow.AlertType.ERROR);
-                log.error("Ошибка при открытии файла {}: {}", file.getAbsolutePath(), e.getMessage());
+                showAlert(LocalizationManager.get("alert_type_error"), LocalizationManager.get("error_failed_to_open_file") + e.getMessage(), CustomAlertWindow.AlertType.ERROR);
+                log.error("Error opening file {}: {}", file.getAbsolutePath(), e.getMessage());
             }
         } else {
-            log.info("Открытие запроса отменено пользователем");
+            log.info("Opening request cancelled by user");
         }
     }
 
     private void saveQuery() {
         String query = queryArea.getText();
         if (query.trim().isEmpty()) {
-            showAlert("Предупреждение", "Запрос пуст. Нечего сохранять.", CustomAlertWindow.AlertType.WARNING);
+            showAlert(LocalizationManager.get("alert_type_warning"), LocalizationManager.get("warn_request_is_empty"), CustomAlertWindow.AlertType.WARNING);
             return;
         }
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Сохранение SQL-запроса");
+        fileChooser.setTitle(LocalizationManager.get("explorer_title_save_query"));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQL Files", "*.sql"));
 
         fileChooser.setInitialFileName("query.sql");
@@ -173,17 +173,17 @@ public class DatabaseWorkspace extends VBox {
         if (file != null) {
             try (FileWriter fileWriter = new FileWriter(file)) {
                 fileWriter.write(query);
-                showAlert("Успех", "Запрос успешно сохранен в файл:\n" + file.getAbsolutePath(), CustomAlertWindow.AlertType.INFO);
+                showAlert(LocalizationManager.get("alert_type_info"), LocalizationManager.get("info_request_saved") + file.getAbsolutePath(), CustomAlertWindow.AlertType.INFO);
             } catch (IOException e) {
-                showAlert("Ошибка", "Не удалось сохранить файл:\n" + e.getMessage(), CustomAlertWindow.AlertType.ERROR);
+                showAlert(LocalizationManager.get("alert_type_error"), LocalizationManager.get("error_request_failed_save") + e.getMessage(), CustomAlertWindow.AlertType.ERROR);
             }
         } else {
-            log.info("Сохранение запроса отменено пользователем");
+            log.info("Request saving cancelled by user");
         }
     }
 
     private void showAlert(String title, String message, CustomAlertWindow.AlertType alertType) {
-        CustomAlertWindow alertWindow = new CustomAlertWindow(primaryStage, title, message, alertType);
+        CustomAlertWindow alertWindow = new CustomAlertWindow(primaryStage, title, message, alertType, stage -> stage.close());
         alertWindow.show();
     }
 

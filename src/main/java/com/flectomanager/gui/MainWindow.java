@@ -2,6 +2,7 @@ package com.flectomanager.gui;
 
 import com.flectomanager.util.ConfigManager;
 import com.flectomanager.util.DatabaseDriver;
+import com.flectomanager.util.LocalizationManager;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -119,7 +120,7 @@ public class MainWindow extends Application {
     }
 
     public Button createConnectionButton() {
-        Button connectDBButton = new Button("Подключиться к БД", new ImageView(Utils.loadFromSVG("textures/icon_connect.svg")));
+        Button connectDBButton = new Button(LocalizationManager.get("connect_to_database"), new ImageView(Utils.loadFromSVG("textures/icon_connect.svg")));
         connectDBButton.getStyleClass().add("theme-button-background-color");
         connectDBButton.setOnAction(e -> connectionWindow.show());
         return connectDBButton;
@@ -191,10 +192,10 @@ public class MainWindow extends Application {
                     updateDatabaseInfoBox();
                     clearWorkspace();
                     addToWorkspace(createConnectionButton());
-                }, null, "Отключить от БД", "theme-tooltip-background-color"),
-                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_connect.svg", e -> connectionWindow.show(), null, "Подклбчиться к БД", "theme-tooltip-background-color"),
-                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_reload.svg", e -> updateDatabaseInfoBox(), null, "Перезагрузить структуру БД", "theme-tooltip-background-color"),
-                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_settings.svg", e -> settingsWindow.show(), null, "Открыть настройки", "theme-tooltip-background-color")
+                }, null, LocalizationManager.get("disconnect_from_database"), "theme-tooltip-background-color"),
+                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_connect.svg", e -> connectionWindow.show(), null, LocalizationManager.get("connect_to_database"), "theme-tooltip-background-color"),
+                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_reload.svg", e -> updateDatabaseInfoBox(), null, LocalizationManager.get("reload_database"), "theme-tooltip-background-color"),
+                Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_settings.svg", e -> settingsWindow.show(), null, LocalizationManager.get("open_settings"), "theme-tooltip-background-color")
         );
         reloadBox.getStyleClass().add("button-container");
 

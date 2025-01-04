@@ -16,6 +16,7 @@ public class Main {
     private static final PropertiesReader PROPERTIES_READER = new PropertiesReader("project.properties");
     public static final String PROJECT_NAME = PROPERTIES_READER.getProperty("project.name");
     public static final String PROJECT_VERSION = PROPERTIES_READER.getProperty("project.version");
+    public static MainWindow mainWindow;
     public static Stage mainStage;
 
     public static void main(String[] args) {
@@ -25,13 +26,20 @@ public class Main {
 
     private static void launchJavaFXApplication(ApplicationContext context) {
         Platform.startup(() -> {
-            MainWindow mainWindow = context.getBean(MainWindow.class);
-            try {
-                mainStage = new Stage();
-                mainWindow.start(mainStage);
-            } catch (Exception e) {
-                log.error("Failed to start JavaFX application: {}", e.getMessage());
-            }
+            mainWindow = context.getBean(MainWindow.class);
+            run();
         });
+    }
+
+    public static void run() {
+        try {
+            if (mainStage != null) {
+                mainStage.close();
+            }
+            mainStage = new Stage();
+            mainWindow.start(mainStage);
+        } catch (Exception e) {
+            log.error("Failed to start JavaFX application: {}", e.getMessage());
+        }
     }
 }

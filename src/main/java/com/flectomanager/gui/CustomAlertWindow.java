@@ -8,20 +8,24 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.function.Consumer;
+
 public class CustomAlertWindow extends Window {
     private final String title;
     private final String message;
     private final AlertType alertType;
+    private final Consumer<Stage> onButtonAction;
 
     public enum AlertType {
         ERROR, WARNING, INFO, DEFAULT
     }
 
-    public CustomAlertWindow(Stage primaryStage, String title, String message, AlertType alertType) {
+    public CustomAlertWindow(Stage primaryStage, String title, String message, AlertType alertType, Consumer<Stage> onButtonAction) {
         super(primaryStage);
         this.title = title;
         this.message = message;
         this.alertType = alertType;
+        this.onButtonAction = onButtonAction;
     }
 
     @Override
@@ -39,10 +43,14 @@ public class CustomAlertWindow extends Window {
         messageLabel.getStyleClass().add("alert-label");
         messageLabel.getStyleClass().add("theme-text-color");
 
-        Button closeButton = new Button("OK");
+        Button closeButton = new Button("ОК");
         closeButton.getStyleClass().add("alert-button");
         closeButton.getStyleClass().add("theme-button-background-color");
-        closeButton.setOnAction(e -> { currentStage.close(); currentStage = null; scene = null; });
+        closeButton.setOnAction(e -> {
+            if (onButtonAction != null) {
+                onButtonAction.accept(currentStage);
+            }
+        });
 
         vbox.getChildren().addAll(messageLabel, closeButton);
 

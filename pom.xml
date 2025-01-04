@@ -17,6 +17,7 @@
         <spring.version>6.1.13</spring.version>
         <javafx.version>23</javafx.version>
         <batik.version>1.17</batik.version>
+        <jackson.version>2.18.0</jackson.version>
     </properties>
 
     <dependencies>
@@ -75,6 +76,16 @@
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>batik-codec</artifactId>
             <version>${batik.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
     </dependencies>
 

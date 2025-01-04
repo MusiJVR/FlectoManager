@@ -1,6 +1,8 @@
 package com.flectomanager.gui;
 
+import com.flectomanager.Main;
 import com.flectomanager.util.ConfigManager;
+import com.flectomanager.util.LocalizationManager;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -22,12 +24,14 @@ public class SettingsWindow extends Window {
     private static Map<String, String> themeMap = new LinkedHashMap<>();
 
     static {
-        languageMap.put("Русский", "ru");
         languageMap.put("English", "en");
+        languageMap.put("Русский", "ru");
         languageMap.put("Deutsch", "de");
+        languageMap.put("Français", "fr");
+        languageMap.put("Español", "es");
 
-        themeMap.put("Темная", "dark");
-        themeMap.put("Светлая", "light");
+        themeMap.put(LocalizationManager.get("dark_theme"), "dark");
+        themeMap.put(LocalizationManager.get("light_theme"), "light");
     }
 
     public SettingsWindow(Stage primaryStage) {
@@ -37,28 +41,28 @@ public class SettingsWindow extends Window {
     @Override
     public void createWindow() {
         currentStage = new Stage();
-        currentStage.setTitle("Настройки");
+        currentStage.setTitle(LocalizationManager.get("settings"));
         currentStage.getIcons().addAll(primaryStage.getIcons());
 
         VBox vbox = new VBox(10);
         vbox.getStyleClass().add("main-vbox");
         vbox.getStyleClass().add("theme-background-color");
         
-        HBox languageBox = createSettingBox("Язык", new ComboBox<>(FXCollections.observableArrayList(languageMap.keySet())));
+        HBox languageBox = createSettingBox(LocalizationManager.get("language"), new ComboBox<>(FXCollections.observableArrayList(languageMap.keySet())));
         ComboBox<String> languageComboBox = (ComboBox<String>) languageBox.getChildren().get(1);
 
-        initializeSelector(languageComboBox, languageMap, "app.lang", "en", this::updateLanguage);
+        initializeSelector(languageComboBox, languageMap, "app.lang", LocalizationManager.getCurrentLanguage(), this::updateLanguage);
 
-        HBox themeBox = createSettingBox("Тема", new ComboBox<>(FXCollections.observableArrayList(themeMap.keySet())));
+        HBox themeBox = createSettingBox(LocalizationManager.get("theme"), new ComboBox<>(FXCollections.observableArrayList(themeMap.keySet())));
         ComboBox<String> themeComboBox = (ComboBox<String>) themeBox.getChildren().get(1);
 
-        initializeSelector(themeComboBox, themeMap, "app.theme", "dark", this::updateTheme);
+        initializeSelector(themeComboBox, themeMap, "app.theme", ConfigManager.getConfigValue("app.theme", "dark"), this::updateTheme);
 
-        HBox hotkeyBox = createSettingBox("Горячие клавиши", new Button("Настроить"));
+        HBox hotkeyBox = createSettingBox(LocalizationManager.get("hot_keys"), new Button(LocalizationManager.get("customize")));
         Button hotkeyButton = (Button) hotkeyBox.getChildren().get(1);
         hotkeyButton.setOnAction(e -> configureHotkeys());
 
-        HBox resetSettingsBox = createSettingBox("Сброс настроек", new Button("Сбросить"));
+        HBox resetSettingsBox = createSettingBox(LocalizationManager.get("reset_settings"), new Button(LocalizationManager.get("reset")));
         Button resetSettingsButton = (Button) resetSettingsBox.getChildren().get(1);
         resetSettingsButton.setOnAction(e -> resetSettings());
 
@@ -97,8 +101,7 @@ public class SettingsWindow extends Window {
         return box;
     }
 
-    private void initializeSelector(ComboBox<String> comboBox, Map<String, String> mapValues, String confPath, String defaultValue, BiConsumer<String, String> action) {
-        String targetValue = ConfigManager.getConfigValue(confPath, defaultValue);
+    private void initializeSelector(ComboBox<String> comboBox, Map<String, String> mapValues, String confPath, String targetValue, BiConsumer<String, String> action) {
         for (Map.Entry<String, String> entry : mapValues.entrySet()) {
             if (entry.getValue().equals(targetValue)) {
                 comboBox.setValue(entry.getKey());
@@ -113,13 +116,23 @@ public class SettingsWindow extends Window {
     }
 
     private void updateLanguage(String confPath, String language) {
-        ConfigManager.updateConfigValue(confPath, language);
-        log.info("Language updated to '{}'", language);
+        CustomAlertWindow alertWindow = new CustomAlertWindow(primaryStage, LocalizationManager.get("alert_type_info"), LocalizationManager.get("warn_update_language"), CustomAlertWindow.AlertType.INFO,
+                stage -> {
+            stage.close();
+            LocalizationManager.setLanguage(language);
+            log.info("Language updated to '{}'", language);
+            try {
+                Main.run();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        alertWindow.show();
     }
 
     private void updateTheme(String confPath, String theme) {
         ConfigManager.updateConfigValue(confPath, theme.toLowerCase());
-        MainWindow.setStylesheets();
+        mainWindow.setStylesheets();
         log.info("Theme updated to '{}'", theme);
     }
 
