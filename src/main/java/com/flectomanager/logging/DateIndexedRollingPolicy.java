@@ -1,4 +1,4 @@
-package com.flectomanager.rolling;
+package com.flectomanager.logging;
 
 import ch.qos.logback.core.rolling.RollingPolicyBase;
 import ch.qos.logback.core.rolling.RolloverFailure;

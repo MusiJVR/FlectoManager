@@ -38,8 +38,8 @@ public class Utils {
         } else return "";
     }
 
-    public static String getLogsDir() {
-        File logsDir = new File(getJarContainingFolder(), "logs");
+    public static String getLogsDir(String path) {
+        File logsDir = new File(getJarContainingFolder(), path);
         if (!logsDir.exists() && !logsDir.mkdirs()) {
             throw new RuntimeException("Could not create logs directory: " + logsDir.getAbsolutePath());
         }
