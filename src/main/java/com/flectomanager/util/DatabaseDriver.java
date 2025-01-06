@@ -10,20 +10,17 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
-//@Component
 public class DatabaseDriver {
     private static final Logger log = LoggerFactory.getLogger(DatabaseDriver.class);
 
-    //@Autowired
     private DataSource dataSource;
-
     private JdbcTemplate jdbcTemplate;
 
     @PostConstruct
     public void init() {
         Map<String, Object> configDataMap = ConfigManager.readConfig();
 
-        if (configDataMap != null) {
+        if (configDataMap != null && !configDataMap.isEmpty()) {
             Map<String, Object> dataSourceMap = (Map<String, Object>) configDataMap.get("datasource");
             if (isValidDataSourceConfig(dataSourceMap)) {
                 connect((String) dataSourceMap.get("url"), (String) dataSourceMap.get("user"), (String) dataSourceMap.get("password"));
@@ -40,7 +37,7 @@ public class DatabaseDriver {
         String user = (String) dataSourceMap.get("user");
         String password = (String) dataSourceMap.get("password");
 
-        return isNotEmpty(url) && isNotEmpty(user) && isNotEmpty(password);
+        return isNotEmpty(url) && url.startsWith("jdbc:") && isNotEmpty(user) && isNotEmpty(password);
     }
 
     private boolean isNotEmpty(String value) {
