@@ -31,7 +31,8 @@ public class Utils {
     }
 
     public static String getJarContainingFolder() {
-        String path = System.getProperty("java.class.path");
+        File dir = new File(System.getProperty("java.class.path"));
+        String path = dir.getAbsolutePath().replace("\\", "/");
         int lastSlashIndex = path.lastIndexOf('/');
         if (lastSlashIndex != -1) {
             return path.substring(0, path.lastIndexOf('/'));
