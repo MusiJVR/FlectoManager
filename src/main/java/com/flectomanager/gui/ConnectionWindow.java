@@ -5,8 +5,10 @@ import com.flectomanager.util.LocalizationManager;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.flectomanager.util.DatabaseDriver;
@@ -32,7 +34,7 @@ public class ConnectionWindow extends Window {
 
         TextField dbUrlField = new TextField();
         TextField usernameField = new TextField();
-        TextField passwordField = new TextField();
+        CustomPasswordField passwordField = new CustomPasswordField();
         dbUrlField.setPromptText(LocalizationManager.get("enter_address"));
         usernameField.setPromptText(LocalizationManager.get("enter_username"));
         passwordField.setPromptText(LocalizationManager.get("enter_password"));
@@ -40,18 +42,26 @@ public class ConnectionWindow extends Window {
         usernameField.getStyleClass().add("connection-window-text-field");
         passwordField.getStyleClass().add("connection-window-text-field");
 
+        Button passwordToggleMaskButton = new Button("👁");
+        passwordToggleMaskButton.setFocusTraversable(false);
+        passwordToggleMaskButton.getStyleClass().add("toggle-button-password-field");
+        passwordToggleMaskButton.setOnAction(e -> {
+            passwordField.toggleMask();
+        });
+
         VBox vbox = new VBox(10);
         vbox.getStyleClass().add("connection-window");
         vbox.getStyleClass().add("theme-background-color");
         vbox.getChildren().addAll(
                 new Label(LocalizationManager.get("database_address")) {{ getStyleClass().add("connection-window-label"); getStyleClass().add("theme-text-color"); }}, dbUrlField,
                 new Label(LocalizationManager.get("username")) {{ getStyleClass().add("connection-window-label"); getStyleClass().add("theme-text-color"); }}, usernameField,
-                new Label(LocalizationManager.get("password")) {{ getStyleClass().add("connection-window-label"); getStyleClass().add("theme-text-color"); }}, passwordField
+                new Label(LocalizationManager.get("password")) {{ getStyleClass().add("connection-window-label"); getStyleClass().add("theme-text-color"); }},
+                new HBox(10, passwordField, passwordToggleMaskButton) {{ setHgrow(passwordField, Priority.ALWAYS); }}
         );
 
         Button connectButton = new Button(LocalizationManager.get("connect"));
         connectButton.getStyleClass().add("theme-button-background-color");
-        connectButton.setOnAction(e -> connectToDatabase(dbUrlField.getText(), usernameField.getText(), passwordField.getText()));
+        connectButton.setOnAction(e -> connectToDatabase(dbUrlField.getText(), usernameField.getText(), passwordField.getPassword()));
 
         Button cancelButton = new Button(LocalizationManager.get("cancel"));
         cancelButton.getStyleClass().add("theme-button-background-color");

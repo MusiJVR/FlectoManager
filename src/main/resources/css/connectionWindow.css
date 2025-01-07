@@ -17,3 +17,9 @@
     -fx-border-radius: 4px;
     -fx-padding: 5px;
 }
+
+.toggle-button-password-field {
+    -fx-padding: 0;
+    -fx-pref-width: 30px;
+    -fx-pref-height: 25px;
+}
