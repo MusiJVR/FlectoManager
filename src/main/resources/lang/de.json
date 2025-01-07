@@ -12,7 +12,7 @@
   "reset": "Zurücksetzen",
   "about_application": "Über die Anwendung",
   "view_info": "Informationen anzeigen",
-  "application_info": "%name% %version% (%url%)\n\nJava-Anwendung zur Arbeit mit Datenbanken und zur Verwaltung von Datensätzen.\n\n%copyright% %developer%\n\n%name% ist freie Software, lizenziert unter der MIT-Lizenz.\n\nDieses Produkt enthält Software, die vom Spring Framework (https://spring.io/) und JavaFX (https://openjfx.io/) entwickelt wurde.",
+  "application_info": "%name% %version% (%url%)\n\nJava-Anwendung zur Arbeit mit Datenbanken und zur Verwaltung von Datensätzen.\n\n%copyright% %developer%\n\n%name% ist freie Software, lizenziert unter der MIT-Lizenz.\n\nDieses Produkt enthält Software, die vom Spring Framework (https://spring.io/), JavaFX (https://openjfx.io/) und MySQL (https://www.mysql.com/) entwickelt wurde.",
   "warn_update_language": "Um Änderungen anzuwenden, muss das Programm neu gestartet werden.",
   "warn_reset_settings": "Um die Rücksetzung der Einstellungen anzuwenden, muss das Programm neu gestartet werden.",
   "execute_query": "Abfrage ausführen",
