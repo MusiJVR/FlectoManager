@@ -62,7 +62,7 @@
 
 ## License
 
-**FlectoManager** is distributed under the [MIT License](https://opensource.org/licenses/MIT).
+**FlectoManager** is distributed under the [MIT License](https://opensource.org/license/mit).
 
 ---
 

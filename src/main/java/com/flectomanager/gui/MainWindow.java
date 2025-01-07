@@ -72,11 +72,7 @@ public class MainWindow extends Application {
         VBox.setVgrow(separator, Priority.ALWAYS);
 
         databaseInfoBox = createDatabaseInfoBox();
-
-        ScrollPane scrollPane = new ScrollPane(databaseInfoBox);
-        scrollPane.getStyleClass().add("custom-scroll-pane");
-        scrollPane.getStyleClass().add("theme-background");
-        scrollPane.setFitToWidth(true);
+        databaseInfoBox.getStyleClass().add("theme-background");
 
         workspace = new HBox(20);
         workspace.getStyleClass().add("workspace");
@@ -85,7 +81,7 @@ public class MainWindow extends Application {
         HBox.setHgrow(workspace, Priority.ALWAYS);
 
         HBox mainLayout = new HBox(10);
-        mainLayout.getChildren().addAll(scrollPane, separator, workspace);
+        mainLayout.getChildren().addAll(databaseInfoBox, separator, workspace);
 
         scene = new Scene(mainLayout, 1200, 800);
         scene.getRoot().getStyleClass().add("main-root");
@@ -186,7 +182,7 @@ public class MainWindow extends Application {
             databaseBox.getChildren().add(tablesBox);
         }
 
-        HBox reloadBox = new HBox(
+        HBox buttonsBox = new HBox(
                 Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_disconnect.svg", e -> {
                     saveCurrentQuery();
                     databaseDriver.close();
@@ -198,10 +194,17 @@ public class MainWindow extends Application {
                 Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_reload.svg", e -> updateDatabaseInfoBox(), null, LocalizationManager.get("reload_database"), "theme-tooltip-background-color"),
                 Utils.createCustomMenuButton(new String[] {"menu-button", "theme-mini-button-background-color"}, "textures/icon_settings.svg", e -> settingsWindow.show(), null, LocalizationManager.get("open_settings"), "theme-tooltip-background-color")
         );
-        reloadBox.getStyleClass().add("button-container");
+        buttonsBox.getStyleClass().add("button-container");
 
-        databaseInfoBox.getChildren().add(reloadBox);
-        databaseInfoBox.getChildren().add(databaseBox);
+        databaseInfoBox.getChildren().add(buttonsBox);
+
+        if (!databaseBox.getChildren().isEmpty()) {
+            ScrollPane scrollPane = new ScrollPane(databaseBox);
+            scrollPane.getStyleClass().add("custom-scroll-pane");
+            scrollPane.getStyleClass().add("theme-scroll-pane");
+            scrollPane.setFitToWidth(true);
+            databaseInfoBox.getChildren().add(scrollPane);
+        }
 
         return databaseInfoBox;
     }

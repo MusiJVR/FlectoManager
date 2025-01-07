@@ -103,6 +103,7 @@ public class DatabaseWorkspace extends VBox {
     private void updateTable(List<Map<String, Object>> results, Tab resultTab) {
         TableView<Map<String, Object>> table = new TableView<>();
         table.getStyleClass().add("result-table");
+        table.getStyleClass().add("theme-scroll-pane");
         table.getStyleClass().add("theme-result-table");
 
         if (results.isEmpty()) {
@@ -126,6 +127,7 @@ public class DatabaseWorkspace extends VBox {
     private void updateQueryResult(String message, Tab resultTab) {
         TableView<Map<String, Object>> table = new TableView<>();
         table.getStyleClass().add("result-table");
+        table.getStyleClass().add("theme-scroll-pane");
         table.getStyleClass().add("theme-result-table");
         table.setPlaceholder(new Label(message));
         resultTab.setContent(table);
