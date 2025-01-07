@@ -35,6 +35,7 @@
   "database_address": "DB address",
   "username": "Username",
   "password": "Password",
+  "password-show-hide": "Show / Hide",
   "connect": "Connect",
   "cancel": "Cancel",
   "warn_failed_connect": "Failed to connect to the database!",

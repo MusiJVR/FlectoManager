@@ -2,6 +2,7 @@ package com.flectomanager.gui;
 
 import com.flectomanager.util.ConfigManager;
 import com.flectomanager.util.LocalizationManager;
+import com.flectomanager.util.Utils;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -41,12 +42,14 @@ public class ConnectionWindow extends Window {
         usernameField.getStyleClass().add("connection-window-text-field");
         passwordField.getStyleClass().add("connection-window-text-field");
 
-        Button passwordToggleMaskButton = new Button("👁");
-        passwordToggleMaskButton.setFocusTraversable(false);
-        passwordToggleMaskButton.getStyleClass().add("toggle-button-password-field");
-        passwordToggleMaskButton.setOnAction(e -> {
-            passwordField.toggleMask();
-        });
+        Button passwordToggleMaskButton = Utils.createCustomMenuButton(
+                new String[]{"toggle-button-password-field", "theme-button-background-color"},
+                null,
+                e -> passwordField.toggleMask(),
+                "👁",
+                LocalizationManager.get("password-show-hide"),
+                "theme-tooltip-background-color"
+        );
 
         VBox vbox = new VBox(10);
         vbox.getStyleClass().add("connection-window");

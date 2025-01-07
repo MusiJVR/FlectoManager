@@ -35,6 +35,7 @@
   "database_address": "Адрес БД",
   "username": "Пользователь",
   "password": "Пароль",
+  "password-show-hide": "Показать / Скрыть",
   "connect": "Подключиться",
   "cancel": "Отмена",
   "warn_failed_connect": "Не удалось подключить к базе данных!",

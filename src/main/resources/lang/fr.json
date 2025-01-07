@@ -35,6 +35,7 @@
   "database_address": "Adresse de la base de données",
   "username": "Nom d'utilisateur",
   "password": "Mot de passe",
+  "password-show-hide": "Afficher / Masquer",
   "connect": "Se connecter",
   "cancel": "Annuler",
   "warn_failed_connect": "Échec de la connexion à la base de données!",
