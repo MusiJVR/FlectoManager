@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Consolas";
+    src: url("fonts/Consolas.ttf") format("truetype");
+}
+
 .settings-root {
     -fx-font-family: "Consolas";
 }
