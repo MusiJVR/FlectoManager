@@ -22,20 +22,8 @@ public class SettingsWindow extends Window {
     private static final Logger log = LoggerFactory.getLogger(SettingsWindow.class);
 
     private final MainWindow mainWindow = MainWindow.getInstance();
-    private static Map<String, String> languageMap = new LinkedHashMap<>();
-    private static Map<String, String> themeMap = new LinkedHashMap<>();
-
-    static {
-        languageMap.put("English", "en");
-        languageMap.put("Русский", "ru");
-        languageMap.put("Deutsch", "de");
-        languageMap.put("Français", "fr");
-        languageMap.put("Español", "es");
-
-        themeMap.put(LocalizationManager.get("dark_theme"), "dark");
-        themeMap.put(LocalizationManager.get("light_theme"), "light");
-        // TODO
-    }
+    private Map<String, String> languageMap = new LinkedHashMap<>();
+    private Map<String, String> themeMap = new LinkedHashMap<>();
 
     public SettingsWindow(Stage primaryStage) {
         super(primaryStage);
@@ -43,6 +31,8 @@ public class SettingsWindow extends Window {
 
     @Override
     public void createWindow() {
+        addSettingMaps();
+
         currentStage = new Stage();
         currentStage.setTitle(LocalizationManager.get("settings"));
         currentStage.getIcons().addAll(primaryStage.getIcons());
@@ -91,6 +81,17 @@ public class SettingsWindow extends Window {
         super.setStylesheets();
         if (scene == null) return;
         scene.getStylesheets().add("css/settingsWindow.css");
+    }
+
+    private void addSettingMaps() {
+        languageMap.put("English", "en");
+        languageMap.put("Русский", "ru");
+        languageMap.put("Deutsch", "de");
+        languageMap.put("Français", "fr");
+        languageMap.put("Español", "es");
+
+        themeMap.put(LocalizationManager.get("dark_theme"), "dark");
+        themeMap.put(LocalizationManager.get("light_theme"), "light");
     }
 
     private HBox createSettingBox(String label, Control control) {
