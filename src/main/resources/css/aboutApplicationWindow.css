@@ -1,0 +1,16 @@
+.about-app-root {
+    -fx-font-family: "Consolas";
+}
+
+.main-layout {
+    -fx-padding: 20px;
+}
+
+.about-text-flow {
+    -fx-pref-width: 400px;
+    -fx-line-spacing: 10px;
+}
+
+.about-button {
+    -fx-padding: 5px 10px;
+}

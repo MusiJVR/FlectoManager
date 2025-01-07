@@ -43,7 +43,7 @@ public class CustomAlertWindow extends Window {
         messageLabel.getStyleClass().add("alert-label");
         messageLabel.getStyleClass().add("theme-text-color");
 
-        Button closeButton = new Button("ОК");
+        Button closeButton = new Button("OK");
         closeButton.getStyleClass().add("alert-button");
         closeButton.getStyleClass().add("theme-button-background-color");
         closeButton.setOnAction(e -> {

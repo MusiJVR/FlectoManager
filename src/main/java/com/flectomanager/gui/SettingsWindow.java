@@ -51,15 +51,15 @@ public class SettingsWindow extends Window {
 
         initializeSelector(themeComboBox, themeMap, "app.theme", ConfigManager.getConfigValue("app.theme", "dark"), this::updateTheme);
 
-        HBox hotkeyBox = createSettingBox(LocalizationManager.get("hot_keys"), new Button(LocalizationManager.get("customize")));
-        Button hotkeyButton = (Button) hotkeyBox.getChildren().get(1);
-        hotkeyButton.setOnAction(e -> configureHotkeys());
-
-        HBox resetSettingsBox = createSettingBox(LocalizationManager.get("reset_settings"), new Button(LocalizationManager.get("reset")));
-        Button resetSettingsButton = (Button) resetSettingsBox.getChildren().get(1);
+        Button resetSettingsButton = new Button(LocalizationManager.get("reset"));
         resetSettingsButton.setOnAction(e -> resetSettings());
+        HBox resetSettingsBox = createSettingBox(LocalizationManager.get("reset_settings"), resetSettingsButton);
 
-        vbox.getChildren().addAll(languageBox, themeBox, hotkeyBox, resetSettingsBox);
+        Button infoAppButton = new Button(LocalizationManager.get("view_info"));
+        infoAppButton.setOnAction(e -> viewAppInfo());
+        HBox infoAppBox = createSettingBox(LocalizationManager.get("about_application"), infoAppButton);
+
+        vbox.getChildren().addAll(languageBox, themeBox, resetSettingsBox, infoAppBox);
 
         ScrollPane scrollPane = new ScrollPane(vbox);
         scrollPane.setFitToWidth(true);
@@ -136,9 +136,9 @@ public class SettingsWindow extends Window {
         log.info("Theme updated to '{}'", theme);
     }
 
-    private void configureHotkeys() {
-        log.info("Hotkey configuration opened");
-        // TODO
+    private void viewAppInfo() {
+        AboutApplicationWindow aboutApplicationWindow = new AboutApplicationWindow(primaryStage);
+        aboutApplicationWindow.show();
     }
 
     private void resetSettings() {

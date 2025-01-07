@@ -14,9 +14,9 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class Main {
     private static final Logger log = LoggerFactory.getLogger(Main.class);
-    private static final PropertiesReader PROPERTIES_READER = new PropertiesReader("project.properties");
-    public static final String PROJECT_NAME = PROPERTIES_READER.getProperty("project.name");
-    public static final String PROJECT_VERSION = PROPERTIES_READER.getProperty("project.version");
+    public static final PropertiesReader PROPERTIES_READER = new PropertiesReader("application.properties");
+    public static final String APPLICATION_NAME = PROPERTIES_READER.getProperty("application.name");
+    public static final String APPLICATION_VERSION = PROPERTIES_READER.getProperty("application.version");
     public static MainWindow mainWindow;
     public static Stage mainStage;
 

@@ -57,7 +57,7 @@ public class MainWindow extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        log.info("Launch {} {}!", Main.PROJECT_NAME, Main.PROJECT_VERSION);
+        log.info("Launch {} {}!", Main.APPLICATION_NAME, Main.APPLICATION_VERSION);
 
         stage.setTitle("FlectoManager");
         stage.getIcons().add(new Image("textures/icon.png"));
@@ -287,7 +287,7 @@ public class MainWindow extends Application {
     @Override
     public void stop() throws Exception {
         saveCurrentQuery();
-        log.info("Stopping {} {}!", Main.PROJECT_NAME, Main.PROJECT_VERSION);
+        log.info("Stopping {} {}!", Main.APPLICATION_NAME, Main.APPLICATION_VERSION);
         System.exit(0);
     }
 }
