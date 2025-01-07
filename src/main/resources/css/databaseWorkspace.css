@@ -2,7 +2,51 @@
     -fx-alignment: center-left;
 }
 
+.result-table .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.result-table .scroll-bar:horizontal .track {
+    -fx-background-radius: 4;
+}
+
+.result-table .scroll-bar:horizontal .thumb {
+    -fx-background-radius: 4;
+    -fx-padding: 2px;
+}
+
+.result-table .scroll-bar:horizontal .increment-button,
+.result-table .scroll-bar:horizontal .decrement-button {
+    -fx-background-radius: 4;
+}
+
+.result-table .scroll-bar:vertical .track {
+    -fx-background-radius: 4;
+}
+
+.result-table .scroll-bar:vertical .thumb {
+    -fx-background-radius: 4;
+    -fx-padding: 2px;
+}
+
+.result-table .scroll-bar:vertical .increment-button,
+.result-table .scroll-bar:vertical .decrement-button {
+    -fx-background-radius: 4;
+}
+
 .result-table .label {
     -fx-font-weight: bold;
     -fx-font-size: 14px;
+}
+
+.result-tab-table {
+    -fx-border-width: 2;
+}
+
+.result-tab-table .tab {
+    -fx-border-radius: 5px;
+}
+
+.result-tab-table .tab .tab-label {
+    -fx-font-weight: bold;
 }

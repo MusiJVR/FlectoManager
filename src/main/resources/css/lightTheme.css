@@ -78,6 +78,74 @@
 }
 
 .theme-result-table .cell {
+    -fx-text-fill: #757575;
+}
+
+.theme-result-table .filler {
+    -fx-background-color: #e0e0e0;
+}
+
+.theme-result-table .table-row-cell {
+    -fx-background-color: #dcdcdc;
+}
+
+.theme-result-table .table-row-cell:odd {
+    -fx-background-color: #e0e0e0;
+}
+
+.theme-result-table .scroll-bar:horizontal .track {
+    -fx-background-color: #dcdcdc;
+}
+
+.theme-result-table .scroll-bar:horizontal .thumb {
+    -fx-background-color: #b0b0b0;
+}
+
+.theme-result-table .scroll-bar:horizontal .increment-button,
+.theme-result-table .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: #dcdcdc;
+}
+
+.theme-result-table .scroll-bar:vertical .track {
+    -fx-background-color: #dcdcdc;
+}
+
+.theme-result-table .scroll-bar:vertical .thumb {
+    -fx-background-color: #b0b0b0;
+}
+
+.theme-result-table .scroll-bar:vertical .increment-button,
+.theme-result-table .scroll-bar:vertical .decrement-button {
+    -fx-background-color: #dcdcdc;
+}
+
+.theme-result-table .scroll-bar .thumb:hover {
+    -fx-background-color: #757575;
+}
+
+.theme-result-table .scroll-bar .thumb:pressed {
+    -fx-background-color: #9e9e9e;
+}
+
+.theme-result-tab-table {
+    -fx-background: #dcdcdc;
+    -fx-border-color: #dcdcdc;
+}
+
+.theme-result-tab-table .tab {
+    -fx-background-color: #dcdcdc;
+}
+
+.theme-result-tab-table .tab:selected {
+    -fx-background-color: #e0e0e0;
+    -fx-border-color: #e0e0e0;
+}
+
+.theme-result-tab-table .tab .tab-label {
+    -fx-text-fill: #757575;
+}
+
+.theme-result-tab-table .tab .tab-content {
     -fx-background-color: #dcdcdc;
     -fx-text-fill: #757575;
 }
