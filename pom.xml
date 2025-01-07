@@ -15,7 +15,9 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>6.1.13</spring.version>
+        <spring.boot.version>3.3.4</spring.boot.version>
         <javafx.version>23</javafx.version>
+        <logback.version>1.5.15</logback.version>
         <batik.version>1.17</batik.version>
         <jackson.version>2.18.0</jackson.version>
     </properties>
@@ -34,7 +36,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>3.3.4</version>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -55,12 +57,12 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.15</version>
+            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.5.15</version>
+            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
@@ -127,7 +129,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.3.4</version>
+                <version>${spring.boot.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -137,6 +139,7 @@
                 </executions>
             </plugin>
         </plugins>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

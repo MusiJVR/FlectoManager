@@ -1,8 +1,3 @@
-@font-face {
-    font-family: "Consolas";
-    src: url("fonts/Consolas.ttf") format("truetype");
-}
-
 .connection-root {
     -fx-font-family: "Consolas";
     -fx-font-size: 14px;
