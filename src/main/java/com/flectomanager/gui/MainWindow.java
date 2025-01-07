@@ -88,7 +88,6 @@ public class MainWindow extends Application {
         mainLayout.getChildren().addAll(scrollPane, separator, workspace);
 
         scene = new Scene(mainLayout, 1200, 800);
-        //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         scene.getRoot().getStyleClass().add("main-root");
         scene.getRoot().getStyleClass().add("theme-background-color");
 

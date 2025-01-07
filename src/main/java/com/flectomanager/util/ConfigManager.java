@@ -76,37 +76,8 @@ public class ConfigManager {
         writeConfig(configDataMap, "configuration/config.yml");
     }
 
-    // Old method
-    public static void updateConfig(Map<String, List<String>> databaseTablesMap) {
-        Map<String, Object> newConfigDataMap = new LinkedHashMap<>();
-        Map<String, Object> newDataSourceMap = new LinkedHashMap<>();
-        Map<String, Object> configDataMap = readConfig();
-        if (configDataMap != null) {
-            Map<String, Object> dataSourceMap = (Map<String, Object>) configDataMap.get("datasource");
-            newDataSourceMap.put("url", dataSourceMap.get("url"));
-            newDataSourceMap.put("user", dataSourceMap.get("user"));
-            newDataSourceMap.put("password", dataSourceMap.get("password"));
-        }
-
-        for (Map.Entry<String, List<String>> table : databaseTablesMap.entrySet()) {
-            newDataSourceMap.put("tables", updateTableColumnsConfig(table));
-        }
-
-        newConfigDataMap.put("datasource", newDataSourceMap);
-
-        writeConfig(newConfigDataMap, "configuration/config.yml");
-    }
-
     public static void updateConfig() {
         if (!checkConfig()) updateConfig(new ArrayList<>(Arrays.asList("", "", "", "en", "dark")));
-    }
-
-    public static Map<String, Object> updateTableColumnsConfig(Map.Entry<String, List<String>> table) {
-        String tableName = table.getKey();
-        List<String> tableColumns = table.getValue();
-        Map<String, Object> tablesMap = new LinkedHashMap<>();
-        tablesMap.put(tableName, tableColumns);
-        return tablesMap;
     }
 
     public static boolean checkConfig() {
