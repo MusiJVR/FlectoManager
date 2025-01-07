@@ -35,9 +35,9 @@ public class DateIndexedRollingPolicy extends RollingPolicyBase {
         String dateFormat = extractDateFormat(fileNamePattern);
         String dateString = new SimpleDateFormat(dateFormat).format(new Date());
 
-        File latestLogFile = new File(getParentsRawFileProperty());
+        File latestLogFile = new File(currentLogFile);
 
-        if (latestLogFile.exists()) {
+        if (latestLogFile.exists() && latestLogFile.length() > 0) {
             String archiveFileName = fileNamePattern.replace("%d{" + dateFormat + "}", dateString).replace("%i", String.valueOf(getNextIndex()));
             File archiveFile = new File(archiveFileName);
 
