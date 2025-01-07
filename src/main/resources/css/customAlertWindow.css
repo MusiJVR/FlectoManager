@@ -1,3 +1,7 @@
+.alert-root {
+    -fx-font-family: "Consolas";
+}
+
 .main-alert {
     -fx-padding: 20px;
     -fx-alignment: center;

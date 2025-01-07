@@ -37,6 +37,7 @@
   "password": "Mot de passe",
   "connect": "Se connecter",
   "cancel": "Annuler",
+  "warn_failed_connect": "Échec de la connexion à la base de données!",
   "alert_type_error": "Erreur",
   "alert_type_warning": "Avertissement",
   "alert_type_info": "Information"

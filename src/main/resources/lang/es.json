@@ -37,6 +37,7 @@
   "password": "Contraseña",
   "connect": "Conectar",
   "cancel": "Cancelar",
+  "warn_failed_connect": "¡No se pudo conectar a la base de datos!",
   "alert_type_error": "Error",
   "alert_type_warning": "Advertencia",
   "alert_type_info": "Información"

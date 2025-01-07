@@ -95,7 +95,12 @@ public class ConnectionWindow extends Window {
         ConfigManager.updateConfigValue("datasource.user", username);
         ConfigManager.updateConfigValue("datasource.password", password);
         databaseDriver.connect(url, username, password);
-        if (databaseDriver.checkDatabaseConnection(true)) mainWindow.createNewWorkspace();
+        if (databaseDriver.checkDatabaseConnection(true)) {
+            mainWindow.createNewWorkspace();
+        } else {
+            CustomAlertWindow alertWindow = new CustomAlertWindow(primaryStage, LocalizationManager.get("alert_type_warning"), LocalizationManager.get("warn_failed_connect"), CustomAlertWindow.AlertType.WARNING, stage -> stage.close());
+            alertWindow.show();
+        }
         currentStage.close();
         mainWindow.updateDatabaseInfoBox();
     }

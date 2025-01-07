@@ -55,6 +55,7 @@ public class CustomAlertWindow extends Window {
         vbox.getChildren().addAll(messageLabel, closeButton);
 
         scene = new Scene(vbox, 350, 200);
+        scene.getRoot().getStyleClass().add("alert-root");
         scene.getStylesheets().add("css/customAlertWindow.css");
 
         setStylesheets();
@@ -79,7 +80,6 @@ public class CustomAlertWindow extends Window {
             case DEFAULT -> "textures/icon.svg";
         };
 
-        //currentStage.getIcons().add(new Image(getClass().getResourceAsStream(iconPath)));
         currentStage.getIcons().add(Utils.loadFromSVG(iconPath));
     }
 }

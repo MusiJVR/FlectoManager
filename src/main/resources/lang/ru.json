@@ -37,6 +37,7 @@
   "password": "Пароль",
   "connect": "Подключиться",
   "cancel": "Отмена",
+  "warn_failed_connect": "Не удалось подключить к базе данных!",
   "alert_type_error": "Ошибка",
   "alert_type_warning": "Предупреждение",
   "alert_type_info": "Уведомление"

@@ -37,6 +37,7 @@
   "password": "Password",
   "connect": "Connect",
   "cancel": "Cancel",
+  "warn_failed_connect": "Failed to connect to the database!",
   "alert_type_error": "Error",
   "alert_type_warning": "Warning",
   "alert_type_info": "Info"
