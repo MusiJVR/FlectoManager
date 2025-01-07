@@ -1,6 +1,6 @@
 <p align="center">
    <a href="https://github.com/MusiJVR/FlectoManager" target="_blank">
-      <img width="180" height="180" src="https://github.com/MusiJVR/FlectoManager/tree/main/docs/icon.png" alt="FlectoManager">
+      <img width="180" height="180" src="https://github.com/MusiJVR/FlectoManager/blob/main/docs/icon.png" alt="FlectoManager">
    </a>
 </p>
 
@@ -20,7 +20,7 @@
 
 <p align="center">
    <a href="https://github.com/MusiJVR/FlectoManager" target="_blank">
-      <img width="600" height="auto" src="https://github.com/MusiJVR/FlectoManager/tree/main/docs/app_preview.png" alt="Preview">
+      <img width="600" height="auto" src="https://github.com/MusiJVR/FlectoManager/blob/main/docs/app_preview.png" alt="Preview">
    </a>
 </p>
 
